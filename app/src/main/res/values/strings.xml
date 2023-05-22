@@ -11,5 +11,7 @@
     <string name="complication_label">Example complication</string>
 
     <!--   Use for MainActivity -->
+    <string name="received_data_title">Received Data</string>
     <string name="permission_not_granted">Permissions not granted by the user.</string>
+    <string name="received_date">Received:</string>
 </resources>

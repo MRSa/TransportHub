@@ -7,5 +7,8 @@
     <string name="complication_label">Example complication</string>
 
     <!--   Use for MainActivity -->
+    <string name="received_data_title">受信データ一覧</string>
+
     <string name="permission_not_granted">必要な権限が有効ではありません。有効にしてください。</string>
+    <string name="received_date">受信日時:</string>
 </resources>

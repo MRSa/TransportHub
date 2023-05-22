@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
+import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -18,29 +20,29 @@ import java.util.Locale
 @Composable
 fun DataItem(data: DataContent)
 {
-    val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(4.dp)
             .clickable(onClick = { }) //deleteData(data) })
     ) {
         data.title?.let {
             Text(
+                fontSize = 14.sp,
                 text = it,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
             )
         }
         Text(
-            text = "created at: ${data.receivedDate?.let { dateFormat.format(it) }}",
+            //text =  " ${data.receivedDate?.let { dateFormat.format(it) }}",
+            text = stringResource(R.string.received_date) + " ${data.receivedDate?.let { dateFormat.format(it) }}",
             fontSize = 12.sp,
             color = Color.LightGray,
             textAlign = TextAlign.Right,
             modifier = Modifier.fillMaxWidth()
         )
     }
-
-
-
 }
