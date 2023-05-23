@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.wear.compose.material.Text
 import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
@@ -18,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun DataItem(data: DataContent)
+fun DataItem(navController: NavHostController, data: DataContent)
 {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
@@ -26,7 +27,7 @@ fun DataItem(data: DataContent)
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
-            .clickable(onClick = { }) //deleteData(data) })
+            .clickable(onClick = { navController.navigate("DetailScreen")} ) //deleteData(data) })
     ) {
         data.title?.let {
             Text(

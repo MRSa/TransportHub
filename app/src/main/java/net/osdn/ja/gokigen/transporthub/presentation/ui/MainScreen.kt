@@ -9,6 +9,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.TimeTextDefaults
@@ -19,7 +20,7 @@ import net.osdn.ja.gokigen.transporthub.storage.DataContent
 import java.util.Locale
 
 @Composable
-fun WearApp(title: String, dataList: SnapshotStateList<DataContent>) {
+fun WearApp(navController: NavHostController, dataList: SnapshotStateList<DataContent>) {
     GokigenComposeAppsTheme {
         val listState = rememberScalingLazyListState()
 
@@ -44,7 +45,7 @@ fun WearApp(title: String, dataList: SnapshotStateList<DataContent>) {
         ) {
             this.items(dataList) { data ->
                 key(data.id) {
-                    DataItem(data)
+                    DataItem(navController, data)
                 }
             }
         }

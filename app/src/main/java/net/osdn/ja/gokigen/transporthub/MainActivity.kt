@@ -16,7 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import net.osdn.ja.gokigen.transporthub.presentation.ui.WearApp
+import net.osdn.ja.gokigen.transporthub.presentation.ui.ViewRoot
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
 import net.osdn.ja.gokigen.transporthub.storage.DataContentDao
 import java.io.File
@@ -24,6 +24,7 @@ import java.security.MessageDigest
 
 class MainActivity : ComponentActivity()
 {
+    private lateinit var rootComponent : ViewRoot
     private var contentList = mutableStateListOf<DataContent>()
     private val storageDao = DbSingleton.db.storageDao()
 
@@ -57,9 +58,11 @@ class MainActivity : ComponentActivity()
             {
                 setupEnvironments()
             }
+            rootComponent = ViewRoot(applicationContext)
+            rootComponent.setValues(contentList)
 
             setContent {
-                WearApp("Android", contentList)
+                rootComponent.Content()
             }
             loadContent()
         }
