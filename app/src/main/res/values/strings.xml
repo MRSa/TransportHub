@@ -10,6 +10,11 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="complication_label">Example complication</string>
 
+    <string name="pref_instruction_manual">Instructions</string>
+    <string name="pref_privacy_policy">Privacy Policy</string>
+    <string name="pref_instruction_manual_url">https://osdn.net/projects/gokigen/wiki/A01f</string>
+    <string name="pref_privacy_policy_url">https://osdn.net/projects/gokigen/wiki/PrivacyPolicy</string>
+
     <!--   Use for MainActivity -->
     <string name="received_data_title">Received Data</string>
     <string name="permission_not_granted">Permissions not granted by the user.</string>
