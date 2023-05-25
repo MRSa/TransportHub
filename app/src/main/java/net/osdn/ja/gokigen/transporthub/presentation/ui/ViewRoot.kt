@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.wear.compose.material.MaterialTheme
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
@@ -50,7 +52,15 @@ fun NavigationMain(navController: NavHostController, dataList: SnapshotStateList
     GokigenComposeAppsTheme {
         NavHost(navController = navController, startDestination = "MainScreen") {
             composable("MainScreen") { WearApp(navController = navController, dataList = dataList) }
-            composable("DetailScreen") { DataDetail(navController = navController) }
+            composable(
+                route = "DetailScreen/{id}",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType }
+                )
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: 0
+                DataDetail(navController = navController, id = id)
+            }
         }
     }
 }

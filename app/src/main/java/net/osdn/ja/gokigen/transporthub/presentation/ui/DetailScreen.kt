@@ -1,5 +1,6 @@
 package net.osdn.ja.gokigen.transporthub.presentation.ui
 
+import android.text.format.DateFormat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -17,18 +20,50 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material.TimeTextDefaults
+import net.osdn.ja.gokigen.transporthub.DbSingleton
 import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
 import net.osdn.ja.gokigen.transporthub.presentation.theme.wearColorPalette
+import java.util.Locale
 
 @Composable
-fun DataDetail(navController: NavHostController)
+fun DataDetail(navController: NavHostController, id : Int)
 {
+    var value = ""
+    try
+    {
+        val thread = Thread {
+            val storageDao = DbSingleton.db.storageDao()
+            val data = storageDao.findById(id)
+            value = data.note?: "???"
+            //Log.v("DataDetail", "DataDetail($id)\n$value")
+        }
+        thread.start()
+    }
+    catch (e: Exception)
+    {
+        e.printStackTrace()
+    }
+
     GokigenComposeAppsTheme {
-        Column {
+        TimeText(
+            timeSource = TimeTextDefaults.timeSource(
+                DateFormat.getBestDateTimePattern(
+                    Locale.getDefault(),
+                    "HH:mm"
+                )
+            )
+        )
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 2.dp)
+        ) {
             DetailScreenTitle(navController)
             Text(
-                text = stringResource(id = R.string.app_name),
+                text = value,
                 color = wearColorPalette.primaryVariant,
                 fontSize = 12.sp,
             )
@@ -63,7 +98,7 @@ fun ShowGokigenPrivacyPolicy()
         Column {
             Text(
                 text = stringResource(R.string.pref_privacy_policy),
-                color = wearColorPalette.primaryVariant,
+                color = wearColorPalette.onSurfaceVariant,
                 fontSize = with(density) { 12.sp }
             )
             Spacer(modifier = Modifier.height(4.dp))

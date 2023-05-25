@@ -22,12 +22,12 @@ import java.util.Locale
 fun DataItem(navController: NavHostController, data: DataContent)
 {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-
+    val dataId = data.id
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
-            .clickable(onClick = { navController.navigate("DetailScreen")} ) //deleteData(data) })
+            .clickable(onClick = { navController.navigate("DetailScreen/$dataId")} )
     ) {
         data.title?.let {
             Text(

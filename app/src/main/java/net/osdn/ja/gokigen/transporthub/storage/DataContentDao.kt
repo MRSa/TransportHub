@@ -14,6 +14,8 @@ interface DataContentDao
     @Query("SELECT * FROM contents WHERE id IN (:ids)")
     fun getAllByIds(ids: IntArray): List<DataContent>
 
+    @Query("SELECT * FROM contents WHERE id = :id LIMIT 1")
+    fun findById(id: Int): DataContent
     @Query("SELECT * FROM contents WHERE hash_value = :hash")
     fun findByHash(hash: String): List<DataContent>
 
