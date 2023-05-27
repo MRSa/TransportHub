@@ -3,35 +3,32 @@ package net.osdn.ja.gokigen.transporthub.presentation.ui
 import android.text.format.DateFormat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.TimeTextDefaults
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import net.osdn.ja.gokigen.transporthub.DbSingleton
 import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
@@ -42,7 +39,6 @@ import java.util.Locale
 fun DataDetail(navController: NavHostController, id : Int)
 {
     val model = DetailModel(id)
-    model.update()
 
     GokigenComposeAppsTheme {
         TimeText(
@@ -70,11 +66,17 @@ fun DataDetail(navController: NavHostController, id : Int)
 }
 
 @Composable
-fun DetailScreenTitle(navController: NavHostController, title: String) {
+fun DetailScreenTitle(navController: NavHostController, title: String)
+{
     TopAppBar(
         modifier = Modifier
-            .padding(0.dp)
-            .clickable(onClick = { navController.navigate("MainScreen") })
+            .clickable(onClick = { navController.navigate("MainScreen") }),
+        contentPadding = PaddingValues(
+            top = 0.dp,
+            start = 16.dp, // 16.dp
+            end = 16.dp,   // 16.dp
+            bottom = 0.dp,
+        ),
     ) {
             Text(
                 text = title,
@@ -87,6 +89,7 @@ fun DetailScreenTitle(navController: NavHostController, title: String) {
 @Composable
 fun ButtonArea(navController: NavHostController, model: DetailModel)
 {
+    val deleteDialog = remember { mutableStateOf(false) }
     Row {
         IconButton(
             onClick = {  },
@@ -99,7 +102,10 @@ fun ButtonArea(navController: NavHostController, model: DetailModel)
             )
         }
         IconButton(
-            onClick = {  },
+            onClick = {
+                // Delete Confirmation
+                deleteDialog.value = true
+            },
             enabled = true
         ) {
             Icon(
@@ -108,18 +114,6 @@ fun ButtonArea(navController: NavHostController, model: DetailModel)
                 tint = Color.LightGray
             )
         }
-/*
-        IconButton(
-            onClick = { model.update() },
-            enabled = true
-        ) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = "Refresh",
-                tint = Color.LightGray
-            )
-        }
-*/
         IconButton(
             onClick = { navController.navigate("MainScreen") },
             enabled = true
@@ -131,5 +125,40 @@ fun ButtonArea(navController: NavHostController, model: DetailModel)
             )
         }
     }
-}
 
+    // データ削除の確認
+    if (deleteDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                deleteDialog.value = false
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                        model.deleteContent()
+                        navController.navigate("MainScreen")
+                    }
+                ) {
+                    Text(stringResource(id = R.string.delete_ok_label))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        deleteDialog.value = false
+                    }
+                ) {
+                    Text(stringResource(id = R.string.delete_cancel_label))
+                }
+            },
+            title = {
+                Text(stringResource(id = R.string.delete_confirm_title))
+            },
+            text = {
+                val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.title
+                Text(message)
+            },
+        )
+    }
+}

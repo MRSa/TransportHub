@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.util.Log
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -14,18 +13,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.wear.compose.material.MaterialTheme
+import net.osdn.ja.gokigen.transporthub.presentation.model.DataListModel
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
-import net.osdn.ja.gokigen.transporthub.storage.DataContent
 
 class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : AbstractComposeView(context, attrs, defStyleAttr)
 {
-    private lateinit var dataList: SnapshotStateList<DataContent>
-
-    fun setValues(dataList: SnapshotStateList<DataContent>)
-    {
-        this.dataList = dataList
-        Log.v(TAG, " ...setValues...")
-    }
+    private val viewModel = DataListModel()
 
     @Composable
     override fun Content()
@@ -34,7 +27,7 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         GokigenComposeAppsTheme {
             Surface(color = MaterialTheme.colors.background) {
-                NavigationMain(navController, dataList)
+                NavigationMain(navController, viewModel)
             }
         }
         Log.v(TAG, " ...NavigationRootComponent...")
@@ -47,11 +40,13 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 }
 
 @Composable
-fun NavigationMain(navController: NavHostController, dataList: SnapshotStateList<DataContent>)
+fun NavigationMain(navController: NavHostController, dataListModel: DataListModel)
 {
     GokigenComposeAppsTheme {
         NavHost(navController = navController, startDestination = "MainScreen") {
-            composable("MainScreen") { WearApp(navController = navController, dataList = dataList) }
+            composable("MainScreen") {
+                WearApp(navController = navController, dataListModel = dataListModel)
+            }
             composable(
                 route = "DetailScreen/{id}",
                 arguments = listOf(

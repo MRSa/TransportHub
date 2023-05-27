@@ -9,13 +9,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.mutableStateListOf
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import net.osdn.ja.gokigen.transporthub.presentation.ui.ViewRoot
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
 import net.osdn.ja.gokigen.transporthub.storage.DataContentDao
@@ -25,7 +20,6 @@ import java.security.MessageDigest
 class MainActivity : ComponentActivity()
 {
     private lateinit var rootComponent : ViewRoot
-    private var contentList = mutableStateListOf<DataContent>()
     private val storageDao = DbSingleton.db.storageDao()
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -59,26 +53,13 @@ class MainActivity : ComponentActivity()
                 setupEnvironments()
             }
             rootComponent = ViewRoot(applicationContext)
-            rootComponent.setValues(contentList)
-
             setContent {
                 rootComponent.Content()
             }
-            loadContent()
         }
         catch (ex: Exception)
         {
             ex.printStackTrace()
-        }
-    }
-
-    private fun loadContent() {
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.Default) {
-                storageDao.getAll().forEach { data ->
-                    contentList.add(data)
-                }
-            }
         }
     }
 

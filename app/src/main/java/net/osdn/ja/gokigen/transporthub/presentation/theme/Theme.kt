@@ -10,7 +10,6 @@ fun GokigenComposeAppsTheme(
     content: @Composable() () -> Unit
 ) {
     val colors = wearColorPalette
-
     MaterialTheme(
         colors = colors,
         typography = Typography,
