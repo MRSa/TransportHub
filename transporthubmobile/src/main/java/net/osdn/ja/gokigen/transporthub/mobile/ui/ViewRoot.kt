@@ -1,4 +1,5 @@
-package net.osdn.ja.gokigen.transporthub.presentation.ui
+package net.osdn.ja.gokigen.transporthub.mobile.ui
+
 
 import android.content.Context
 import android.util.AttributeSet
@@ -12,9 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.wear.compose.material.MaterialTheme
-import net.osdn.ja.gokigen.transporthub.presentation.model.DataListModel
-import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
+import net.osdn.ja.gokigen.transporthub.mobile.model.DataListModel
+import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 
 class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : AbstractComposeView(context, attrs, defStyleAttr)
 {
@@ -25,9 +25,9 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     {
         val navController = rememberNavController()
 
-        GokigenComposeAppsTheme {
-            Surface(color = MaterialTheme.colors.background) {
-                NavigationMain(context, navController, viewModel)
+        TransportHubTheme {
+            Surface {
+                NavigationMain(navController, viewModel)
             }
         }
         Log.v(TAG, " ...NavigationRootComponent...")
@@ -40,9 +40,9 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 }
 
 @Composable
-fun NavigationMain(context: Context, navController: NavHostController, dataListModel: DataListModel)
+fun NavigationMain(navController: NavHostController, dataListModel: DataListModel)
 {
-    GokigenComposeAppsTheme {
+    TransportHubTheme {
         NavHost(navController = navController, startDestination = "MainScreen") {
             composable("MainScreen") {
                 WearApp(navController = navController, dataListModel = dataListModel)
@@ -54,7 +54,7 @@ fun NavigationMain(context: Context, navController: NavHostController, dataListM
                 )
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("id") ?: 0
-                DataDetail(context = context, navController = navController, id = id)
+                DataDetail(navController = navController, id = id)
             }
         }
     }

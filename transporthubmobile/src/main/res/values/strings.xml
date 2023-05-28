@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TransportHub(Mobile)</string>
+
+    <string name="received_date">Received:</string>
+
+    <string name="permission_not_granted">Permissions not granted by the user.</string>
+    <string name="data_empty">Received data is none.</string>
+
+    <string name="delete_confirm_title">Delete Confirmation</string>
+    <string name="delete_confirm_message">Delete OK? </string>
+    <string name="delete_ok_label">OK</string>
+    <string name="delete_cancel_label">Cancel</string>
+</resources>

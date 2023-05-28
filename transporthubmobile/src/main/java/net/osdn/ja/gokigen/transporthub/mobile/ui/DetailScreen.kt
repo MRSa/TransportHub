@@ -1,24 +1,22 @@
-package net.osdn.ja.gokigen.transporthub.presentation.ui
+package net.osdn.ja.gokigen.transporthub.mobile.ui
 
-import android.content.Context
-import android.text.format.DateFormat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,83 +26,49 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.TimeText
-import androidx.wear.compose.material.TimeTextDefaults
-import net.osdn.ja.gokigen.transporthub.ContentDataSender
-import net.osdn.ja.gokigen.transporthub.R
-import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
-import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
-import net.osdn.ja.gokigen.transporthub.presentation.theme.wearColorPalette
-import java.util.Locale
+import net.osdn.ja.gokigen.transporthub.mobile.R
+import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
 
+import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 @Composable
-fun DataDetail(context: Context, navController: NavHostController, id : Int)
+fun DataDetail(navController: NavHostController, id : Int)
 {
     val model = DetailModel(id)
 
-    GokigenComposeAppsTheme {
-        TimeText(
-            timeSource = TimeTextDefaults.timeSource(
-                DateFormat.getBestDateTimePattern(
-                    Locale.getDefault(),
-                    "HH:mm"
-                )
-            )
-        )
+    TransportHubTheme {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 2.dp)
         ) {
             DetailScreenTitle(navController, model.title)
-            ButtonArea(context, navController, model)
+            ButtonArea(navController, model)
             Text(
                 text = model.value,
-                color = wearColorPalette.primaryVariant,
+                //color = TransportHubTheme.,
                 fontSize = 12.sp,
             )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreenTitle(navController: NavHostController, title: String)
 {
     TopAppBar(
-        modifier = Modifier
-            .clickable(onClick = { navController.navigate("MainScreen") }),
-        contentPadding = PaddingValues(
-            top = 0.dp,
-            start = 16.dp, // 16.dp
-            end = 16.dp,   // 16.dp
-            bottom = 0.dp,
-        ),
-    ) {
-            Text(
-                text = title,
-                color = wearColorPalette.primary,
-                fontSize = 12.sp,
-            )
-    }
+        title = { Text(text = title) },
+        modifier = Modifier.clickable(onClick = { navController.navigate("MainScreen") })
+    )
 }
 
 @Composable
-fun ButtonArea(context: Context, navController: NavHostController, model: DetailModel)
+fun ButtonArea(navController: NavHostController, model: DetailModel)
 {
     val deleteDialog = remember { mutableStateOf(false) }
     Row {
         IconButton(
-            onClick = {
-                try
-                {
-                    val sender = ContentDataSender(context)
-                    sender.sendContent(model)
-                }
-                catch (e: Exception)
-                {
-                    e.printStackTrace()
-                }
-            },
+            onClick = {  },
             enabled = true
         ) {
             Icon(

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TransportHub(Mobile)</string>
+
+    <string name="received_date">受信日時:</string>
+
+    <string name="permission_not_granted">必要な権限が有効ではありません。有効にしてください。</string>
+    <string name="data_empty">受信データはありません。</string>
+
+    <string name="delete_confirm_title">削除確認</string>
+    <string name="delete_confirm_message">削除します。</string>
+    <string name="delete_ok_label">OK</string>
+    <string name="delete_cancel_label">Cancel</string>
+</resources>
