@@ -56,13 +56,27 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 2.dp)
         ) {
-            DetailScreenTitle(navController, model.title)
-            ButtonArea(context, navController, model)
-            Text(
-                text = model.value,
-                color = wearColorPalette.primaryVariant,
-                fontSize = 12.sp,
-            )
+            if (model.dataInitialized())
+            {
+                val data = model.detailData
+                DetailScreenTitle(navController, data.title)
+                ButtonArea(context, navController, model)
+                Text(
+                    text = data.value,
+                    color = wearColorPalette.primaryVariant,
+                    fontSize = 12.sp,
+                )
+            }
+            else
+            {
+                DetailScreenTitle(navController, "?")
+                ButtonArea(context, navController, model)
+                Text(
+                    text = "??",
+                    color = wearColorPalette.primaryVariant,
+                    fontSize = 12.sp,
+                )
+            }
         }
     }
 }
@@ -168,7 +182,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                 Text(stringResource(id = R.string.delete_confirm_title))
             },
             text = {
-                val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.title
+                val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.detailData.title
                 Text(message)
             },
         )

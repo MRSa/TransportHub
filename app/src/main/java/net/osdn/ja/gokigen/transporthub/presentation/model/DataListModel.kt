@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import net.osdn.ja.gokigen.transporthub.DbSingleton
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
 
-class DataListModel() : ViewModel()
+class DataListModel : ViewModel()
 {
     private var isRefreshing = false
     private val storageDao = DbSingleton.db.storageDao()

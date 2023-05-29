@@ -1,6 +1,7 @@
 package net.osdn.ja.gokigen.transporthub
 
 import android.content.Context
+import android.os.Parcel
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -17,17 +18,24 @@ class ContentDataSender(val context: Context)
     {
         try
         {
+            Log.v(TAG, "sendContent : ${model.detailData.title}")
             val thread = Thread {
                 val nodeListTask: Task<List<Node>> = Wearable.getNodeClient(context).connectedNodes
                 val nodes: List<Node> = Tasks.await(nodeListTask)
-                for (node in nodes) {
+                for (node in nodes)
+                {
                     val messageClient: MessageClient = Wearable.getMessageClient(context)
 
-                    //  ----- データはシリアライズして送るべき ----
+                    //  ----- データをシリアライズして送信する ----
+                    val parcel = Parcel.obtain()
+                    model.detailData.writeToParcel(parcel, 0)
+                    val detailDataBytes = parcel.marshall()
+                    parcel.recycle()
+
                     val clientTask = messageClient.sendMessage(
-                        node.getId(),
-                        model.title,
-                        model.value.toByteArray()
+                        node.id,
+                        "message_transfer",
+                        detailDataBytes
                     )
                     try
                     {
