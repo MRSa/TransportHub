@@ -155,6 +155,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
     // データ削除の確認
     if (deleteDialog.value) {
         AlertDialog(
+            modifier = Modifier.padding(top = 2.dp, bottom = 2.dp, start = 6.dp, end = 6.dp),
             onDismissRequest = {
                 deleteDialog.value = false
             },
