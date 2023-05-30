@@ -1,19 +1,28 @@
 package net.osdn.ja.gokigen.transporthub.mobile.model
 
-import android.util.Log
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import net.osdn.ja.gokigen.transporthub.mobile.DbSingleton
+
+@Parcelize
+data class DetailData(var title: String, var value: String) : Parcelable
 
 class DetailModel(val id: Int)
 {
     private var isRefreshing = false
-    var value:String = ""
-    var title:String = "....."
+    lateinit var detailData: DetailData
     init
     {
         update()
     }
+/*
+    fun dataInitialized() : Boolean
+    {
+        return (::detailData.isInitialized)
+    }
+*/
 
-    fun update()
+    private fun update()
     {
         try
         {
@@ -23,13 +32,20 @@ class DetailModel(val id: Int)
                     isRefreshing = true
                     val storageDao = DbSingleton.db.storageDao()
                     val data = storageDao.findById(id)
-                    value = data?.note ?: "???"
-                    title = data?.title ?: "?"
-                    Log.v("DataDetail", "DataDetail($id)\n$title\n$value")
+                    detailData = DetailData(data?.title ?: "?", data?.note ?: "???")
+                    //Log.v("DataDetail", "DataDetail($id)\n${detailData.title}\n${detailData.value}")
                     isRefreshing = false
                 }
             }
             thread.start()
+            try
+            {
+                thread.join()
+            }
+            catch (ee: Exception)
+            {
+                ee.printStackTrace()
+            }
         }
         catch (e: Exception)
         {

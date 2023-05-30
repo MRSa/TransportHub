@@ -41,10 +41,10 @@ fun DataDetail(navController: NavHostController, id : Int)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 2.dp)
         ) {
-            DetailScreenTitle(navController, model.title)
+            DetailScreenTitle(navController, model.detailData.title)
             ButtonArea(navController, model)
             Text(
-                text = model.value,
+                text = model.detailData.value,
                 //color = TransportHubTheme.,
                 fontSize = 12.sp,
             )
@@ -132,7 +132,7 @@ fun ButtonArea(navController: NavHostController, model: DetailModel)
                 Text(stringResource(id = R.string.delete_confirm_title))
             },
             text = {
-                val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.title
+                val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.detailData.title
                 Text(message)
             },
         )

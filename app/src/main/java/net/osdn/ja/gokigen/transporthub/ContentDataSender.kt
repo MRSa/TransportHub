@@ -35,7 +35,7 @@ class ContentDataSender(val context: Context)
 
                     val clientTask = messageClient.sendMessage(
                         node.id,
-                        "message_transfer",
+                        "/message_transfer",
                         detailDataBytes
                     )
                     try
