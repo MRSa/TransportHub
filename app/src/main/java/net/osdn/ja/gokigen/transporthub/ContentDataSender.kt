@@ -18,10 +18,11 @@ class ContentDataSender(val context: Context)
     {
         try
         {
-            Log.v(TAG, "sendContent : ${model.detailData.title}")
+            Log.v(TAG, "---------- sendContent : '${model.detailData.title}'")
             val thread = Thread {
                 val nodeListTask: Task<List<Node>> = Wearable.getNodeClient(context).connectedNodes
                 val nodes: List<Node> = Tasks.await(nodeListTask)
+                var sentCount = 0
                 for (node in nodes)
                 {
                     val messageClient: MessageClient = Wearable.getMessageClient(context)
@@ -41,12 +42,14 @@ class ContentDataSender(val context: Context)
                     {
                         val result = Tasks.await(clientTask)
                         Log.v(TAG, " sent : '$model.title'  result:$result")
+                        sentCount++
                     }
                     catch (ee: Exception)
                     {
                         ee.printStackTrace()
                     }
                 }
+                Log.v(TAG, "---------- sendContent : $sentCount")
             }
             thread.start()
         }
