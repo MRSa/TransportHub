@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import net.osdn.ja.gokigen.transporthub.mobile.DbSingleton
 
 @Parcelize
-data class DetailData(var title: String, var value: String) : Parcelable
+data class DetailData(var title: String, var value: String, var hash: String) : Parcelable
 
 class DetailModel(val id: Int)
 {
@@ -32,7 +32,7 @@ class DetailModel(val id: Int)
                     isRefreshing = true
                     val storageDao = DbSingleton.db.storageDao()
                     val data = storageDao.findById(id)
-                    detailData = DetailData(data?.title ?: "?", data?.note ?: "???")
+                    detailData = DetailData(title = data?.title ?: "?", value = data?.note ?: "???", hash = data?.hashValue ?: ">>")
                     //Log.v("DataDetail", "DataDetail($id)\n${detailData.title}\n${detailData.value}")
                     isRefreshing = false
                 }

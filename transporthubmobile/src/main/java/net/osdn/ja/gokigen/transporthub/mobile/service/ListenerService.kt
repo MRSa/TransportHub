@@ -15,6 +15,18 @@ class ListenerService : WearableListenerService()
 {
     private var isRefreshing = false
 
+    override fun onCreate()
+    {
+        super.onCreate()
+        Log.v(TAG, " ----- onCreate()... WearableListenerService")
+    }
+
+    override fun onDestroy()
+    {
+        super.onDestroy()
+        Log.v(TAG, " ----- onDestroy()... WearableListenerService")
+    }
+
     override fun onCapabilityChanged(capability: CapabilityInfo)
     {
         super.onCapabilityChanged(capability)
