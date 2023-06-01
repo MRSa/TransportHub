@@ -10,10 +10,10 @@ import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
 import java.lang.Exception
+import java.util.concurrent.TimeUnit
 
 class ContentDataSender(val context: Context)
 {
-
     fun sendContent(model: DetailModel)
     {
         try
@@ -37,11 +37,14 @@ class ContentDataSender(val context: Context)
                         node.id,
                         "/message_transfer",
                         detailDataBytes
-                    )
+                    ).apply {
+                        addOnSuccessListener { Log.v(TAG, "Transport Success : ${node.displayName}") }
+                        addOnFailureListener { Log.v(TAG, "Transport Failure : ${node.displayName}") }
+                    }
                     try
                     {
-                        val result = Tasks.await(clientTask)
-                        Log.v(TAG, " sent : '$model.title'  result:$result")
+                        val result = Tasks.await(clientTask, TIMEOUT, TimeUnit.SECONDS)
+                        Log.v(TAG, " sent : '${model.detailData.title}' (${node.displayName}) result:$result bytes:${detailDataBytes.size}")
                         sentCount++
                     }
                     catch (ee: Exception)
@@ -50,6 +53,8 @@ class ContentDataSender(val context: Context)
                     }
                 }
                 Log.v(TAG, "---------- sendContent : $sentCount")
+                // Toast.makeText(context, context.getString(R.string.data_transferred), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+                System.gc()
             }
             thread.start()
         }
@@ -62,5 +67,6 @@ class ContentDataSender(val context: Context)
     companion object
     {
         private val TAG = MainActivity::class.java.simpleName
+        private val TIMEOUT : Long = 10
     }
 }

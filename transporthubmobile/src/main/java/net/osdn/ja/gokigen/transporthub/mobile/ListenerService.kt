@@ -1,12 +1,12 @@
-package net.osdn.ja.gokigen.transporthub.mobile.service
+package net.osdn.ja.gokigen.transporthub.mobile
 
 import android.os.Parcel
 import android.util.Log
 import com.google.android.gms.wearable.CapabilityInfo
+import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import kotlinx.parcelize.parcelableCreator
-import net.osdn.ja.gokigen.transporthub.mobile.DbSingleton
 import net.osdn.ja.gokigen.transporthub.mobile.model.DetailData
 import net.osdn.ja.gokigen.transporthub.mobile.storage.DataContent
 import java.security.MessageDigest
@@ -18,13 +18,19 @@ class ListenerService : WearableListenerService()
     override fun onCreate()
     {
         super.onCreate()
-        Log.v(TAG, " ----- onCreate()... WearableListenerService")
+        Log.v(TAG, " ----- onCreate()... WearableListenerService / ListenerService")
     }
 
     override fun onDestroy()
     {
         super.onDestroy()
-        Log.v(TAG, " ----- onDestroy()... WearableListenerService")
+        Log.v(TAG, " ----- onDestroy()... WearableListenerService / ListenerService")
+    }
+
+    override fun onDataChanged(dataEvents: DataEventBuffer)
+    {
+        super.onDataChanged(dataEvents)
+        Log.v(TAG, " ===== onDataChanged : ${dataEvents.count}")
     }
 
     override fun onCapabilityChanged(capability: CapabilityInfo)

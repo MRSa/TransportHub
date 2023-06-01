@@ -90,6 +90,7 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         try
         {
             Wearable.getMessageClient(this).addListener(this)
+            Log.v(TAG, " - - - Add Listener - - -")
         }
         catch (e: Exception)
         {
