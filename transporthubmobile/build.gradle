@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "net.osdn.ja.gokigen.transporthub.mobile"
+        applicationId "net.osdn.ja.gokigen.transporthub"
         minSdk 25
         targetSdk 33
         versionCode 1001
