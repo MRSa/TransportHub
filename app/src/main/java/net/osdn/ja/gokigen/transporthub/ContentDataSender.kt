@@ -3,6 +3,7 @@ package net.osdn.ja.gokigen.transporthub
 import android.content.Context
 import android.os.Parcel
 import android.util.Log
+import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.MessageClient
@@ -10,6 +11,7 @@ import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
 import java.lang.Exception
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class ContentDataSender(val context: Context)
@@ -38,7 +40,23 @@ class ContentDataSender(val context: Context)
                         "/message_transfer",
                         detailDataBytes
                     ).apply {
-                        addOnSuccessListener { Log.v(TAG, "Transport Success : ${node.displayName}") }
+                        addOnSuccessListener {
+                            Log.v(TAG, "Transport Success : ${node.displayName}")
+                            val thread = Thread {
+                            val storageDao = DbSingleton.db.storageDao()
+                            storageDao.updateSendDate(model.id, Date())
+                            }
+                            try
+                            {
+                                thread.start()
+                                Toast.makeText(context, context.getString(R.string.data_transferred), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+                                //Toast.makeText(context, context.getString(R.string.data_transferred) + " : " + node.displayName, Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+                            }
+                            catch (ee: Exception)
+                            {
+                                ee.printStackTrace()
+                            }
+                        }
                         addOnFailureListener { Log.v(TAG, "Transport Failure : ${node.displayName}") }
                     }
                     try
@@ -53,7 +71,6 @@ class ContentDataSender(val context: Context)
                     }
                 }
                 Log.v(TAG, "---------- sendContent : $sentCount")
-                // Toast.makeText(context, context.getString(R.string.data_transferred), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
                 System.gc()
             }
             thread.start()

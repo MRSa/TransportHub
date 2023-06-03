@@ -21,6 +21,7 @@
     <string name="received_data_title">Received Data</string>
     <string name="permission_not_granted">Permissions not granted by the user.</string>
     <string name="received_date">Received:</string>
+    <string name="send_date">Sent:</string>
     <string name="data_empty">Received data is none.</string>
 
     <string name="delete_confirm_title">Delete Confirmation</string>

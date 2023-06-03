@@ -2,6 +2,8 @@ package net.osdn.ja.gokigen.transporthub.mobile.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Blue200 = Color(0xFFAECBFA)
+val Blue300 = Color(0xFF8AB4F8)
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

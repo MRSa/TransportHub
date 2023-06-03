@@ -3,6 +3,7 @@ package net.osdn.ja.gokigen.transporthub.presentation.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import net.osdn.ja.gokigen.transporthub.DbSingleton
+import net.osdn.ja.gokigen.transporthub.storage.DataContent
 
 @Parcelize
 data class DetailData(var title: String, var value: String, var hash: String) : Parcelable
@@ -11,6 +12,7 @@ class DetailModel(val id: Int)
 {
     private var isRefreshing = false
     lateinit var detailData: DetailData
+    var dataContent: DataContent? = null
     init
     {
         update()
@@ -30,8 +32,8 @@ class DetailModel(val id: Int)
                 {
                     isRefreshing = true
                     val storageDao = DbSingleton.db.storageDao()
-                    val data = storageDao.findById(id)
-                    detailData = DetailData(title = data?.title ?: "?", value = data?.note ?: "???", hash = data?.hashValue ?: ">>")
+                    dataContent = storageDao.findById(id)
+                    detailData = DetailData(title = dataContent?.title ?: "?", value = dataContent?.note ?: "???", hash = dataContent?.hashValue ?: ">>")
                     //Log.v("DataDetail", "DataDetail($id)\n${detailData.title}\n${detailData.value}")
                     isRefreshing = false
                 }

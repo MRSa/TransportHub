@@ -35,6 +35,7 @@ import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
 import net.osdn.ja.gokigen.transporthub.presentation.theme.wearColorPalette
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
@@ -60,6 +61,16 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
             {
                 val data = model.detailData
                 DetailScreenTitle(navController, data.title)
+                if ((model.dataContent != null)&&(model.dataContent?.sendDate != null))
+                {
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                    val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
+                    Text(
+                        text = sendDateText,
+                        color = wearColorPalette.onPrimary,
+                        fontSize = 10.sp,
+                    )
+                }
                 ButtonArea(context, navController, model)
                 Text(
                     text = data.value,

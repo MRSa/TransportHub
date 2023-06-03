@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import net.osdn.ja.gokigen.transporthub.mobile.R
 import net.osdn.ja.gokigen.transporthub.mobile.storage.DataContent
+import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.Blue300
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -33,7 +34,7 @@ fun DataItem(navController: NavHostController, data: DataContent)
             Text(
                 fontSize = 14.sp,
                 text = it,
-                color = Color.White,
+                color = Blue300,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
             )
         }
