@@ -1,5 +1,9 @@
 package net.osdn.ja.gokigen.transporthub.mobile.ui
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +35,7 @@ import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
 
 import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 @Composable
-fun DataDetail(navController: NavHostController, id : Int)
+fun DataDetail(context: Context, navController: NavHostController, id : Int)
 {
     val model = DetailModel(id)
 
@@ -42,7 +46,7 @@ fun DataDetail(navController: NavHostController, id : Int)
                 .padding(horizontal = 16.dp, vertical = 2.dp)
         ) {
             DetailScreenTitle(navController, model.detailData.title)
-            ButtonArea(navController, model)
+            ButtonArea(context, navController, model)
             Text(
                 text = model.detailData.value,
                 //color = TransportHubTheme.,
@@ -63,12 +67,34 @@ fun DetailScreenTitle(navController: NavHostController, title: String)
 }
 
 @Composable
-fun ButtonArea(navController: NavHostController, model: DetailModel)
+fun ButtonArea(context: Context, navController: NavHostController, model: DetailModel)
 {
     val deleteDialog = remember { mutableStateOf(false) }
     Row {
         IconButton(
-            onClick = {  },
+            onClick = {
+                // Issue Share Intent
+                // Intent発行(ACTION_SEND)
+                try
+                {
+                    val sendIntent = Intent().apply {
+                        action = Intent.ACTION_SEND  // NoteIntents.ACTION_CREATE_NOTE
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_SUBJECT, model.detailData.title)
+                        putExtra(Intent.EXTRA_TEXT, model.detailData.value)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    //val shareIntent = Intent.createChooser(sendIntent, null)
+                    context.startActivity(sendIntent)
+                    Log.v("DetailData", "<<< SEND INTENT >>> : ${model.detailData.title}")
+                    Toast.makeText(context, context.getString(R.string.intent_issued), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+
+                }
+                catch (e: Exception)
+                {
+                    e.printStackTrace()
+                }
+            },
             enabled = true
         ) {
             Icon(

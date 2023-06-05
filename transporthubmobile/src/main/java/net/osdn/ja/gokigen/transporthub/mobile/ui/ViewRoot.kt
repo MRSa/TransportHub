@@ -27,7 +27,7 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         TransportHubTheme {
             Surface {
-                NavigationMain(navController, viewModel)
+                NavigationMain(context, navController, viewModel)
             }
         }
         Log.v(TAG, " ...NavigationRootComponent...")
@@ -40,7 +40,7 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 }
 
 @Composable
-fun NavigationMain(navController: NavHostController, dataListModel: DataListModel)
+fun NavigationMain(context: Context, navController: NavHostController, dataListModel: DataListModel)
 {
     TransportHubTheme {
         NavHost(navController = navController, startDestination = "MainScreen") {
@@ -54,7 +54,7 @@ fun NavigationMain(navController: NavHostController, dataListModel: DataListMode
                 )
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("id") ?: 0
-                DataDetail(navController = navController, id = id)
+                DataDetail(context = context, navController = navController, id = id)
             }
         }
     }

@@ -10,4 +10,5 @@
     <string name="delete_confirm_message">Delete OK? </string>
     <string name="delete_ok_label">OK</string>
     <string name="delete_cancel_label">Cancel</string>
+    <string name="intent_issued">Share data</string>
 </resources>

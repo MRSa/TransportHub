@@ -10,4 +10,6 @@
     <string name="delete_confirm_message">削除します。</string>
     <string name="delete_ok_label">OK</string>
     <string name="delete_cancel_label">Cancel</string>
+
+    <string name="intent_issued">データを共有します。</string>
 </resources>
