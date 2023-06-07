@@ -22,8 +22,8 @@
     <string name="send_date">送信日時:</string>
     <string name="data_empty">受信データはありません。</string>
 
-    <string name="delete_confirm_title">Delete Confirmation</string>
-    <string name="delete_confirm_message">Delete OK? </string>
+    <string name="delete_confirm_title">削除確認</string>
+    <string name="delete_confirm_message">データを削除します。</string>
     <string name="delete_ok_label">OK</string>
     <string name="delete_cancel_label">Cancel</string>
 </resources>

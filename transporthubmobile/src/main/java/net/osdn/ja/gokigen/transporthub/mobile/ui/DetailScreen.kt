@@ -79,7 +79,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                 {
                     val sendIntent = Intent().apply {
                         action = Intent.ACTION_SEND  // NoteIntents.ACTION_CREATE_NOTE
-                        type = "text/plain"
+                        type = "text/plain" // MIME TYPE
                         putExtra(Intent.EXTRA_SUBJECT, model.detailData.title)
                         putExtra(Intent.EXTRA_TEXT, model.detailData.value)
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
