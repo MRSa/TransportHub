@@ -12,6 +12,7 @@
     <string name="pref_privacy_policy_url">https://osdn.net/projects/gokigen/wiki/PrivacyPolicy</string>
 
     <string name="data_transferred">データを送信しました</string>
+    <string name="intent_issued">データを共有します。</string>
 
     <!--   Use for MainActivity -->
     <string name="received_data_title">受信データ一覧</string>

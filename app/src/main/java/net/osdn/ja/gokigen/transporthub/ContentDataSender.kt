@@ -23,10 +23,20 @@ class ContentDataSender(val context: Context)
             Log.v(TAG, "---------- sendContent : '${model.detailData.title}'")
             val thread = Thread {
                 val nodeListTask: Task<List<Node>> = Wearable.getNodeClient(context).connectedNodes
+                val myNodeTask: Task<Node> = Wearable.getNodeClient(context).localNode
+                val myNode: Node = Tasks.await(myNodeTask)
                 val nodes: List<Node> = Tasks.await(nodeListTask)
                 var sentCount = 0
+                // Log.v(TAG, " = = = My Node: ${myNode.displayName}")
                 for (node in nodes)
                 {
+                    if (node == myNode)
+                    {
+                        //  ----- 自ノードの場合は、送信しない -----
+                        Log.v(TAG, " - - - My Node: ${myNode.displayName}")
+                        continue
+                    }
+
                     val messageClient: MessageClient = Wearable.getMessageClient(context)
 
                     //  ----- データをシリアライズして送信する ----
