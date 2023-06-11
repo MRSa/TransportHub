@@ -41,38 +41,38 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
                 )
             )
         )
-            ScalingLazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    top = 32.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 32.dp,
-                ),
-                verticalArrangement = Arrangement.Center,
-                state = listState
-            ) {
-                this.items(dataListModel.dataList) { data ->
-                    key(data.id) {
-                        DataItem(navController, data)
-                    }
-                }
-            }
-            if (dataListModel.dataList.isEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                )
-                {
-                    Text(
-                        text = stringResource(id = R.string.data_empty),
-                        color = wearColorPalette.primary,
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                    )
-
+        ScalingLazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = 32.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 32.dp,
+            ),
+            verticalArrangement = Arrangement.Center,
+            state = listState
+        ) {
+            this.items(dataListModel.dataList) { data ->
+                key(data.id) {
+                    DataItem(navController, data)
                 }
             }
         }
+        if (dataListModel.dataList.isEmpty()) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                Text(
+                    text = stringResource(id = R.string.data_empty),
+                    color = wearColorPalette.primary,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                )
+
+            }
+        }
+    }
 }

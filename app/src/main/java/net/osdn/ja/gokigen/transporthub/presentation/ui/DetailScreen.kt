@@ -61,18 +61,24 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 2.dp)
         ) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
             if (model.dataInitialized())
             {
                 val data = model.detailData
                 DetailScreenTitle(navController, data.title)
+                val receiveDateText = stringResource(id = R.string.received_date) + " ${model.dataContent?.receivedDate?.let { dateFormat.format(it) }}"
+                Text(
+                    text = receiveDateText,
+                    color = wearColorPalette.onSurfaceVariant,
+                    fontSize = 11.sp,
+                )
                 if ((model.dataContent != null)&&(model.dataContent?.sendDate != null))
                 {
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
                     val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
                     Text(
                         text = sendDateText,
-                        color = wearColorPalette.onPrimary,
-                        fontSize = 10.sp,
+                        color = wearColorPalette.onSurfaceVariant,
+                        fontSize = 11.sp,
                     )
                 }
                 ButtonArea(context, navController, model)
