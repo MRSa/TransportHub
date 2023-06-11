@@ -25,6 +25,6 @@ internal val wearColorPalette: Colors = Colors(
     onSecondary = DarkGrey,
     onError = Black,
     onSurfaceVariant = Grey300,
-    onBackground = White,
+    onBackground = Black,
     onSurface = White,
 )

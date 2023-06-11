@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -206,38 +206,43 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
     }
 
     // データ削除の確認
-    if (deleteDialog.value) {
+    if (deleteDialog.value)
+    {
         AlertDialog(
-            modifier = Modifier.padding(top = 2.dp, bottom = 2.dp, start = 6.dp, end = 6.dp),
+            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 10.dp),
             onDismissRequest = {
                 deleteDialog.value = false
             },
+            backgroundColor = wearColorPalette.onBackground,
             confirmButton = {
-                TextButton(
+                Button(
                     onClick = {
                         deleteDialog.value = false
                         model.deleteContent()
                         navController.navigate("MainScreen")
                     }
                 ) {
-                    Text(stringResource(id = R.string.delete_ok_label))
+                    Text(text = stringResource(id = R.string.delete_ok_label))
                 }
             },
             dismissButton = {
-                TextButton(
+                Button(
                     onClick = {
                         deleteDialog.value = false
                     }
                 ) {
-                    Text(stringResource(id = R.string.delete_cancel_label))
+                    Text(text = stringResource(id = R.string.delete_cancel_label))
                 }
             },
             title = {
-                Text(stringResource(id = R.string.delete_confirm_title))
+                Text(
+                    text = stringResource(id = R.string.delete_confirm_title),
+                    color = wearColorPalette.primary)
             },
             text = {
-                val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.detailData.title
-                Text(message)
+                //val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.detailData.title
+                val message = " " + model.detailData.title
+                Text(text = message, color = wearColorPalette.primary)
             },
         )
     }
