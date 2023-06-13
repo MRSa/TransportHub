@@ -3,28 +3,17 @@ package net.osdn.ja.gokigen.transporthub.presentation.theme
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
 
-val Blue200 = Color(0xFFAECBFA)
-val Blue300 = Color(0xFF8AB4F8)
-val Yellow200 = Color(0xFFFdE293)
-val Yellow300 = Color(0xFFFDD663)
-val Black = Color(0xFF000000)
-val DarkGrey = Color(0XFF303133)
-val Red400 = Color(0xFFEE675C)
-val White = Color(0xFFFFFFFF)
-val Grey300 = Color(0xFFDADCE0)
-
-
-internal val wearColorPalette: Colors = Colors(
-    primary = Blue200,
-    primaryVariant = Blue300,
-    secondary = Yellow200,
-    secondaryVariant = Yellow300,
-    error = Red400,
-    surface = DarkGrey,
-    onPrimary = DarkGrey,
-    onSecondary = DarkGrey,
-    onError = Black,
-    onSurfaceVariant = Grey300,
-    onBackground = Black,
-    onSurface = White,
+internal val defaultColorPalette: Colors = Colors(
+    primary = Color(0xffbb86fc),
+    primaryVariant = Color(0xff3700b3),
+    secondary = Color(0xff03dac6),
+    secondaryVariant = Color(0xff018786),
+    error = Color(0xffcf6679),
+    surface = Color(0xff121212),
+    onPrimary = Color(0xff000000),
+    onSecondary = Color(0xff000000),
+    onError = Color(0xff000000),
+    onSurfaceVariant = Color(0xffaecbfa),
+    onBackground = Color(0xffffffff),
+    onSurface = Color(0xffffffff),
 )

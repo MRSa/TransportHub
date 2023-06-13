@@ -23,7 +23,7 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.presentation.model.DataListModel
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
-import net.osdn.ja.gokigen.transporthub.presentation.theme.wearColorPalette
+import net.osdn.ja.gokigen.transporthub.presentation.theme.defaultColorPalette
 import java.util.Locale
 
 @Composable
@@ -67,7 +67,7 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
             {
                 Text(
                     text = stringResource(id = R.string.data_empty),
-                    color = wearColorPalette.primary,
+                    color = defaultColorPalette.primary,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
                 )

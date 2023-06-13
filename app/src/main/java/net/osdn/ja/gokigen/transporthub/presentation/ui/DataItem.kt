@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.Text
 import net.osdn.ja.gokigen.transporthub.R
-import net.osdn.ja.gokigen.transporthub.presentation.theme.wearColorPalette
+import net.osdn.ja.gokigen.transporthub.presentation.theme.defaultColorPalette
 import net.osdn.ja.gokigen.transporthub.storage.DataContent
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -55,7 +55,7 @@ fun DataItem(navController: NavHostController, data: DataContent)
                 Text(
                     fontSize = 14.sp,
                     text = it,
-                    color = wearColorPalette.primaryVariant,
+                    color = defaultColorPalette.primary,
                     modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
                 )
             }

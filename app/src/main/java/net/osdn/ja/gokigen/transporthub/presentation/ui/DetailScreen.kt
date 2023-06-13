@@ -9,14 +9,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -38,7 +40,7 @@ import net.osdn.ja.gokigen.transporthub.ContentDataSender
 import net.osdn.ja.gokigen.transporthub.R
 import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
-import net.osdn.ja.gokigen.transporthub.presentation.theme.wearColorPalette
+import net.osdn.ja.gokigen.transporthub.presentation.theme.defaultColorPalette
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -69,7 +71,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                 val receiveDateText = stringResource(id = R.string.received_date) + " ${model.dataContent?.receivedDate?.let { dateFormat.format(it) }}"
                 Text(
                     text = receiveDateText,
-                    color = wearColorPalette.onSurfaceVariant,
+                    color = defaultColorPalette.onSurfaceVariant,
                     fontSize = 11.sp,
                 )
                 if ((model.dataContent != null)&&(model.dataContent?.sendDate != null))
@@ -77,14 +79,14 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                     val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
                     Text(
                         text = sendDateText,
-                        color = wearColorPalette.onSurfaceVariant,
+                        color = defaultColorPalette.onSurfaceVariant,
                         fontSize = 11.sp,
                     )
                 }
                 ButtonArea(context, navController, model)
                 Text(
                     text = data.value,
-                    color = wearColorPalette.primaryVariant,
+                    color = Color.LightGray,
                     fontSize = 12.sp,
                 )
             }
@@ -94,7 +96,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                 ButtonArea(context, navController, model)
                 Text(
                     text = "??",
-                    color = wearColorPalette.primaryVariant,
+                    color = Color.LightGray,
                     fontSize = 12.sp,
                 )
             }
@@ -114,10 +116,12 @@ fun DetailScreenTitle(navController: NavHostController, title: String)
             end = 16.dp,   // 16.dp
             bottom = 0.dp,
         ),
-    ) {
+        backgroundColor = Color(0x00000000),  // タイトル部分の背景は透過
+        ) {
             Text(
                 text = title,
-                color = wearColorPalette.primary,
+                color = defaultColorPalette.primary,
+                fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,
             )
     }
@@ -209,40 +213,51 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
     if (deleteDialog.value)
     {
         AlertDialog(
-            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 10.dp),
+            modifier = Modifier.fillMaxSize(),//Modifier.padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 10.dp),
+            contentColor = defaultColorPalette.onSurface,
             onDismissRequest = {
                 deleteDialog.value = false
             },
-            backgroundColor = wearColorPalette.onBackground,
+            backgroundColor = defaultColorPalette.background,
             confirmButton = {
-                Button(
+                TextButton(
                     onClick = {
                         deleteDialog.value = false
                         model.deleteContent()
                         navController.navigate("MainScreen")
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.delete_ok_label))
+                    Text(
+                        text = stringResource(id = R.string.delete_ok_label),
+                        color = defaultColorPalette.secondary
+                    )
                 }
             },
             dismissButton = {
-                Button(
+                TextButton(
                     onClick = {
                         deleteDialog.value = false
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.delete_cancel_label))
+                    Text(
+                        text = stringResource(id = R.string.delete_cancel_label),
+                        color = defaultColorPalette.secondary
+                    )
                 }
             },
             title = {
                 Text(
                     text = stringResource(id = R.string.delete_confirm_title),
-                    color = wearColorPalette.primary)
+                    //color = defaultColorPalette.onSurface
+                )
             },
             text = {
                 //val message = stringResource(id = R.string.delete_confirm_message) + " \n " + model.detailData.title
                 val message = " " + model.detailData.title
-                Text(text = message, color = wearColorPalette.primary)
+                Text(
+                    text = message,
+                    //color = defaultColorPalette.onSurface
+                )
             },
         )
     }
