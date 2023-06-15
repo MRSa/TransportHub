@@ -3,20 +3,16 @@ package net.osdn.ja.gokigen.transporthub.presentation.ui
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import net.osdn.ja.gokigen.transporthub.presentation.model.DataListModel
 import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsTheme
@@ -50,11 +46,10 @@ fun NavigationMain(context: Context, navController: NavHostController, dataListM
     GokigenComposeAppsTheme {
         Scaffold()
         {
-            //SwipeDismissableNavHost(
-            NavHost(
+            SwipeDismissableNavHost(
+            //NavHost(
                 navController = navController,
                 startDestination = "MainScreen",
-                modifier = Modifier.background(MaterialTheme.colors.background)
             ) {
                 composable(
                     route = "MainScreen"
