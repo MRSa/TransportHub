@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import java.util.Date
 
 @Dao
 interface DataContentDao
@@ -21,6 +22,12 @@ interface DataContentDao
 
     @Query("SELECT * FROM contents WHERE title LIKE :mainTitle AND " + "sub_title LIKE :subTitle LIMIT 1")
     fun findByTitle(mainTitle: String, subTitle: String): DataContent?
+
+    @Query("UPDATE contents SET send_date = :sendDate WHERE id = :id")
+    fun updateSendDate(id: Int, sendDate: Date)
+
+    @Query("UPDATE contents SET checked = :checked WHERE id = :id")
+    fun updateChecked(id: Int, checked: Boolean)
 
     @Insert
     fun insertAll(vararg contents: DataContent)

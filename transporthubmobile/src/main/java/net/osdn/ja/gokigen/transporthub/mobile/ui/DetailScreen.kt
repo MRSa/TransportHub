@@ -26,10 +26,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import net.osdn.ja.gokigen.transporthub.mobile.ContentDataSender
 import net.osdn.ja.gokigen.transporthub.mobile.R
 import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
 
@@ -71,6 +73,28 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
 {
     val deleteDialog = remember { mutableStateOf(false) }
     Row {
+        IconButton(
+            onClick = {
+                // Send data to Watch
+                try
+                {
+                    // データをウオッチに送る
+                    val sender = ContentDataSender(context)
+                    sender.sendContent(model)
+                }
+                catch (e: Exception)
+                {
+                    e.printStackTrace()
+                }
+            },
+            enabled = true
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_watch_24),
+                contentDescription = "Send",
+                tint = Color.LightGray
+            )
+        }
         IconButton(
             onClick = {
                 // Issue Share Intent

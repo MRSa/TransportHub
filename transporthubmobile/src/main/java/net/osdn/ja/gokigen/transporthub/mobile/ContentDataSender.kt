@@ -1,4 +1,4 @@
-package net.osdn.ja.gokigen.transporthub
+package net.osdn.ja.gokigen.transporthub.mobile
 
 import android.content.Context
 import android.os.Parcel
@@ -9,7 +9,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
-import net.osdn.ja.gokigen.transporthub.presentation.model.DetailModel
+import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
 import java.lang.Exception
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -53,8 +53,8 @@ class ContentDataSender(val context: Context)
                         addOnSuccessListener {
                             Log.v(TAG, "Transport Success : ${node.displayName}")
                             val thread = Thread {
-                            val storageDao = DbSingleton.db.storageDao()
-                            storageDao.updateSendDate(model.id, Date())
+                                val storageDao = DbSingleton.db.storageDao()
+                                storageDao.updateSendDate(model.id, Date())
                             }
                             try
                             {
