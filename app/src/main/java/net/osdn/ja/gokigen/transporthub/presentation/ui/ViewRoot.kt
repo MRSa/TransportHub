@@ -10,7 +10,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -44,27 +43,24 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 fun NavigationMain(context: Context, navController: NavHostController, dataListModel: DataListModel)
 {
     GokigenComposeAppsTheme {
-        Scaffold()
-        {
-            SwipeDismissableNavHost(
+        SwipeDismissableNavHost(
             //NavHost(
-                navController = navController,
-                startDestination = "MainScreen",
+            navController = navController,
+            startDestination = "MainScreen",
+        ) {
+            composable(
+                route = "MainScreen"
             ) {
-                composable(
-                    route = "MainScreen"
-                ) {
-                    WearApp(navController = navController, dataListModel = dataListModel)
-                }
-                composable(
-                    route = "DetailScreen/{id}",
-                    arguments = listOf(
-                        navArgument("id") { type = NavType.IntType }
-                    )
-                ) { backStackEntry ->
-                    val id = backStackEntry.arguments?.getInt("id") ?: 0
-                    DataDetail(context = context, navController = navController, id = id)
-                }
+                WearApp(navController = navController, dataListModel = dataListModel)
+            }
+            composable(
+                route = "DetailScreen/{id}",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType }
+                )
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: 0
+                DataDetail(context = context, navController = navController, id = id)
             }
         }
     }

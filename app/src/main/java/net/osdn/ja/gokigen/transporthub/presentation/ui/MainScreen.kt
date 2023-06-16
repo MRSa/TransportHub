@@ -55,7 +55,7 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
         Scaffold(
             positionIndicator = {
                 PositionIndicator(scalingLazyListState = listState)
-            }
+            },
         ) {
             val focusRequester = remember { FocusRequester() }
             val coroutineScope = rememberCoroutineScope()
