@@ -1,6 +1,7 @@
 package net.osdn.ja.gokigen.transporthub.mobile
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Parcel
@@ -17,6 +18,7 @@ import com.google.android.gms.wearable.Wearable
 import kotlinx.parcelize.parcelableCreator
 import net.osdn.ja.gokigen.transporthub.mobile.model.DetailData
 import net.osdn.ja.gokigen.transporthub.mobile.storage.DataContent
+import net.osdn.ja.gokigen.transporthub.mobile.storage.DataContentDao
 import net.osdn.ja.gokigen.transporthub.mobile.ui.ViewRoot
 import java.io.File
 import java.security.MessageDigest
@@ -132,6 +134,13 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
                     index++
                 }
             }
+
+            // Process the received Intent
+            if (intent?.action == Intent.ACTION_SEND)
+            {
+                Log.v(TAG, "Received Intent")
+                handleReceivedIntent(intent, storageDao)
+            }
         }
         try
         {
@@ -197,6 +206,39 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             e.printStackTrace()
         }
     }
+
+    private fun handleReceivedIntent(intent: Intent, dao: DataContentDao)
+    {
+        try
+        {
+            val title = intent.getStringExtra(Intent.EXTRA_SUBJECT)
+            val data = intent.getStringExtra(Intent.EXTRA_TEXT)
+            val checkString:String = title + data
+            // Intent.EXTRA_STREAM の処理を行っていない
+
+            val md = MessageDigest.getInstance("SHA-256")
+            val digest = md.digest(checkString.toByteArray()).toString()
+            Log.v(TAG, "RECEIVED INTENT (Title: $title , DIGEST: $digest) Length: ${checkString.length}")
+
+            // いちおう本文とタイトルのハッシュで既に登録済か確認する
+            val check = dao.findByHash(digest)
+            if (check.isEmpty())
+            {
+                // データが入っていないので、データベースに登録する
+                val content = DataContent.create(title, digest, data)
+                dao.insertAll(content)
+            }
+            else
+            {
+                Log.v(TAG, " ===== DATA CONTENT IS ALREADY REGISTERED =====")
+            }
+        }
+        catch (e: Exception)
+        {
+            e.printStackTrace()
+        }
+    }
+
     companion object
     {
         private val TAG = MainActivity::class.java.simpleName
