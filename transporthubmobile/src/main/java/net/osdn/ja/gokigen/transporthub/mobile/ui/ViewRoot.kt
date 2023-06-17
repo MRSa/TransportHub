@@ -45,7 +45,7 @@ fun NavigationMain(context: Context, navController: NavHostController, dataListM
     TransportHubTheme {
         NavHost(navController = navController, startDestination = "MainScreen") {
             composable("MainScreen") {
-                WearApp(navController = navController, dataListModel = dataListModel)
+                MobileApp(navController = navController, dataListModel = dataListModel)
             }
             composable(
                 route = "DetailScreen/{id}",
