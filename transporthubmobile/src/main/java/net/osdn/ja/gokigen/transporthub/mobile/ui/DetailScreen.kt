@@ -64,7 +64,7 @@ fun DetailScreenTitle(navController: NavHostController, title: String)
 {
     TopAppBar(
         title = { Text(text = title) },
-        modifier = Modifier.clickable(onClick = { navController.navigate("MainScreen") })
+        modifier = Modifier.clickable(onClick = { navController.popBackStack() })
     )
 }
 
@@ -141,7 +141,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
             )
         }
         IconButton(
-            onClick = { navController.navigate("MainScreen") },
+            onClick = { navController.popBackStack() },
             enabled = true
         ) {
             Icon(

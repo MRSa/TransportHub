@@ -35,7 +35,7 @@ fun PreferenceScreen(navController: NavHostController)
 
     MaterialTheme {
         Column {
-            PreferenceScreenTitle()
+            PreferenceScreenTitle(navController)
             Spacer(Modifier.size(padding))
             Divider(color = Color.LightGray, thickness = 1.dp)
             ShowWifiSetting()
@@ -51,10 +51,12 @@ fun PreferenceScreen(navController: NavHostController)
 }
 
 @Composable
-fun PreferenceScreenTitle()
+fun PreferenceScreenTitle(navController: NavHostController)
 {
     val density = LocalDensity.current
-    TopAppBar()
+    TopAppBar(
+        modifier = Modifier.clickable(onClick = { navController.popBackStack() }),
+    )
     {
         Text(text = stringResource(id = R.string.pref_cat_application_settings),
             fontSize = with(density) { 24.dp.toSp() },
