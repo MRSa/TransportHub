@@ -109,7 +109,7 @@ fun DetailScreenTitle(navController: NavHostController, title: String)
 {
     TopAppBar(
         modifier = Modifier
-            .clickable(onClick = { navController.navigate("MainScreen") }),
+            .clickable(onClick = { navController.popBackStack() }),
         contentPadding = PaddingValues(
             top = 0.dp,
             start = 16.dp, // 16.dp
@@ -198,7 +198,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
             )
         }
         IconButton(
-            onClick = { navController.navigate("MainScreen") },
+            onClick = { navController.popBackStack() },
             enabled = true
         ) {
             Icon(
@@ -224,7 +224,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                     onClick = {
                         deleteDialog.value = false
                         model.deleteContent()
-                        navController.navigate("MainScreen")
+                        navController.popBackStack()
                     }
                 ) {
                     Text(

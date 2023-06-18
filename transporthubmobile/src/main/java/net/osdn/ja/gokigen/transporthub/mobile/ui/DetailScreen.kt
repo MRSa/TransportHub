@@ -163,7 +163,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                     onClick = {
                         deleteDialog.value = false
                         model.deleteContent()
-                        navController.navigate("MainScreen")
+                        navController.popBackStack()
                     }
                 ) {
                     Text(stringResource(id = R.string.delete_ok_label))
