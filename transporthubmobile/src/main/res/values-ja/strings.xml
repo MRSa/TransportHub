@@ -13,4 +13,13 @@
     <string name="delete_cancel_label">Cancel</string>
 
     <string name="intent_issued">データを共有します。</string>
+
+    <string name="pref_wifi_settings">Wi-Fi 設定</string>
+    <string name="pref_summary_wifi_settings"> </string>
+
+    <string name="pref_cat_application_settings">TransportHub 設定</string>
+    <string name="pref_instruction_manual">操作説明</string>
+    <string name="pref_instruction_manual_url">https://osdn.net/projects/gokigen/wiki/TransportHub</string>
+    <string name="pref_privacy_policy">プライバシーポリシー</string>
+    <string name="pref_privacy_policy_url">https://osdn.net/projects/gokigen/wiki/PrivacyPolicy</string>
 </resources>

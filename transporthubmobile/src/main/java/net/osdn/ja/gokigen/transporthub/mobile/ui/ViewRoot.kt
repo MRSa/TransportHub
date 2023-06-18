@@ -56,6 +56,9 @@ fun NavigationMain(context: Context, navController: NavHostController, dataListM
                 val id = backStackEntry.arguments?.getInt("id") ?: 0
                 DataDetail(context = context, navController = navController, id = id)
             }
+            composable("PreferenceScreen") {
+                PreferenceScreen(navController = navController)
+            }
         }
     }
 }

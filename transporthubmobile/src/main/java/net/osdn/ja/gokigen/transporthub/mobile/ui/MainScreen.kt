@@ -39,7 +39,7 @@ fun MobileApp(navController: NavHostController, dataListModel: DataListModel)
     dataListModel.refresh()
     TransportHubTheme {
         Scaffold(
-            topBar = { MainTopBar() },
+            topBar = { MainTopBar(navController) },
             modifier = Modifier.fillMaxSize(),
         ) {
             Modifier.padding(it).fillMaxWidth()
@@ -49,7 +49,7 @@ fun MobileApp(navController: NavHostController, dataListModel: DataListModel)
 }
 
 @Composable
-fun MainTopBar()
+fun MainTopBar(navController: NavHostController)
 {
     val context = LocalContext.current
     val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://osdn.net/projects/gokigen/wiki/TransportHub")) }
@@ -58,7 +58,7 @@ fun MainTopBar()
             Text(stringResource(id = R.string.app_name))
         },
         actions = {
-            IconButton(onClick = { /* transition to Settings Page */ }) {
+            IconButton(onClick = { navController.navigate("PreferenceScreen") }) {
                 Icon(Icons.Default.Settings, contentDescription = "Settings")
             }
             IconButton(
