@@ -99,6 +99,4 @@ fun ReceivedContentList(navController: NavHostController, dataListModel: DataLis
             )
         }
     }
-
-
 }

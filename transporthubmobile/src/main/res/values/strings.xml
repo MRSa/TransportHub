@@ -2,6 +2,7 @@
     <string name="app_name">TransportHub (Mobile)</string>
 
     <string name="received_date">Received:</string>
+    <string name="send_date">Sent:</string>
 
     <string name="permission_not_granted">Permissions not granted by the user.</string>
     <string name="data_empty">Received data is none.</string>

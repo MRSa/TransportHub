@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -36,6 +37,9 @@ import net.osdn.ja.gokigen.transporthub.mobile.R
 import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
 
 import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
+import java.text.SimpleDateFormat
+import java.util.Locale
+
 @Composable
 fun DataDetail(context: Context, navController: NavHostController, id : Int)
 {
@@ -47,13 +51,45 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 2.dp)
         ) {
-            DetailScreenTitle(navController, model.detailData.title)
-            ButtonArea(context, navController, model)
-            Text(
-                text = model.detailData.value,
-                //color = TransportHubTheme.,
-                fontSize = 12.sp,
-            )
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+            if (model.dataInitialized())
+            {
+                val data = model.detailData
+                DetailScreenTitle(navController, data.title)
+                val receiveDateText = stringResource(id = R.string.received_date) + " ${model.dataContent?.receivedDate?.let { dateFormat.format(it) }}"
+                Text(
+                    text = receiveDateText,
+                    color = Color.LightGray,
+                    textAlign = TextAlign.Right,
+                    fontSize = 12.sp,
+                )
+                if ((model.dataContent != null)&&(model.dataContent?.sendDate != null))
+                {
+                    val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
+                    Text(
+                        text = sendDateText,
+                        color = Color.LightGray,
+                        textAlign = TextAlign.Right,
+                        fontSize = 12.sp,
+                    )
+                }
+                ButtonArea(context, navController, model)
+                androidx.compose.material.Text(
+                    text = data.value,
+                    //color = Color.LightGray,
+                    fontSize = 14.sp,
+                )
+            }
+            else
+            {
+                DetailScreenTitle(navController, "?")
+                ButtonArea(context, navController, model)
+                androidx.compose.material.Text(
+                    text = "??",
+                    color = Color.LightGray,
+                    fontSize = 14.sp,
+                )
+            }
         }
     }
 }
