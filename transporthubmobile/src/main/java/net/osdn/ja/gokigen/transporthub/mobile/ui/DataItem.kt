@@ -37,11 +37,11 @@ fun DataItem(navController: NavHostController, data: DataContent)
             tint =
             if (data.sendDate == null)
             {
-                Color.DarkGray
+                Color.LightGray
             }
             else
             {
-                Color.LightGray
+                Color.DarkGray
             },
         )
         Column(

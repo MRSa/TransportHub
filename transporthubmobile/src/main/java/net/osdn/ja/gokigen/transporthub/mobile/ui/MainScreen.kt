@@ -3,6 +3,7 @@ package net.osdn.ja.gokigen.transporthub.mobile.ui
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -57,6 +59,8 @@ fun MainTopBar(navController: NavHostController)
         title = {
             Text(stringResource(id = R.string.app_name))
         },
+        backgroundColor = Color(0xff3DDC84),
+        contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
         actions = {
             IconButton(onClick = { navController.navigate("PreferenceScreen") }) {
                 Icon(Icons.Default.Settings, contentDescription = "Settings")

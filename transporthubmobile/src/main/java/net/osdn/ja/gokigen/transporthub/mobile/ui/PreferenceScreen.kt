@@ -3,6 +3,7 @@ package net.osdn.ja.gokigen.transporthub.mobile.ui
 import android.content.Intent
 import android.provider.Settings
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,13 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import net.osdn.ja.gokigen.transporthub.mobile.R
+import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 
 @Composable
 fun PreferenceScreen(navController: NavHostController)
 {
     val padding = 2.dp
 
-    MaterialTheme {
+    TransportHubTheme {
         Column {
             PreferenceScreenTitle(navController)
             Spacer(Modifier.size(padding))
@@ -56,6 +58,8 @@ fun PreferenceScreenTitle(navController: NavHostController)
     val density = LocalDensity.current
     TopAppBar(
         modifier = Modifier.clickable(onClick = { navController.popBackStack() }),
+        backgroundColor = Color(0xff3DDC84),
+        contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
     )
     {
         Text(text = stringResource(id = R.string.pref_cat_application_settings),

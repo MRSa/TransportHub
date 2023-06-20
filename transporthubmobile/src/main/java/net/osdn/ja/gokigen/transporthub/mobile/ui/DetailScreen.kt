@@ -5,22 +5,22 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +49,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 2.dp)
+                .padding(4.dp)
         ) {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
             if (model.dataInitialized())
@@ -74,7 +74,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                     )
                 }
                 ButtonArea(context, navController, model)
-                androidx.compose.material.Text(
+                Text(
                     text = data.value,
                     //color = Color.LightGray,
                     fontSize = 14.sp,
@@ -84,7 +84,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
             {
                 DetailScreenTitle(navController, "?")
                 ButtonArea(context, navController, model)
-                androidx.compose.material.Text(
+                Text(
                     text = "??",
                     color = Color.LightGray,
                     fontSize = 14.sp,
@@ -94,14 +94,16 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreenTitle(navController: NavHostController, title: String)
 {
     TopAppBar(
         title = { Text(text = title) },
-        modifier = Modifier.clickable(onClick = { navController.popBackStack() })
-    )
+        modifier = Modifier.clickable(onClick = { navController.popBackStack() }),
+        backgroundColor = Color(0xff3DDC84),
+        contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
+
+        )
 }
 
 @Composable
