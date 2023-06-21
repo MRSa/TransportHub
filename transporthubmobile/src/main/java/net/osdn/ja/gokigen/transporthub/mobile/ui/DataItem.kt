@@ -1,6 +1,7 @@
 package net.osdn.ja.gokigen.transporthub.mobile.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,11 +38,11 @@ fun DataItem(navController: NavHostController, data: DataContent)
             tint =
             if (data.sendDate == null)
             {
-                Color.LightGray
+               if(isSystemInDarkTheme()) { Color.DarkGray } else { Color.LightGray }
             }
             else
             {
-                Color.DarkGray
+                if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
             },
         )
         Column(
@@ -54,7 +55,7 @@ fun DataItem(navController: NavHostController, data: DataContent)
                 Text(
                     fontSize = 16.sp,
                     text = it,
-                    //color = ColorScheme,
+                    color = if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
                 )
             }
@@ -68,7 +69,7 @@ fun DataItem(navController: NavHostController, data: DataContent)
                     }
                 }",
                 fontSize = 14.sp,
-                color = Color.LightGray,
+                color = if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray },
                 textAlign = TextAlign.Right,
                 modifier = Modifier.fillMaxWidth()
             )

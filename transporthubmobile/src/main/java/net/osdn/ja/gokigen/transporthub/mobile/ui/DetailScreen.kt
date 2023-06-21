@@ -102,8 +102,7 @@ fun DetailScreenTitle(navController: NavHostController, title: String)
         modifier = Modifier.clickable(onClick = { navController.popBackStack() }),
         backgroundColor = Color(0xff3DDC84),
         contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
-
-        )
+    )
 }
 
 @Composable
