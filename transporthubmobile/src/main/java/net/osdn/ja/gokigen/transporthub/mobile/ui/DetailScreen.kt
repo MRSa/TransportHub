@@ -8,12 +8,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
@@ -21,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +39,7 @@ import androidx.navigation.NavHostController
 import net.osdn.ja.gokigen.transporthub.mobile.ContentDataSender
 import net.osdn.ja.gokigen.transporthub.mobile.R
 import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
+import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.SubGreen
 
 import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 import java.text.SimpleDateFormat
@@ -46,49 +51,54 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
     val model = DetailModel(id)
 
     TransportHubTheme {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(4.dp)
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
         ) {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-            if (model.dataInitialized())
-            {
-                val data = model.detailData
-                DetailScreenTitle(navController, data.title)
-                val receiveDateText = stringResource(id = R.string.received_date) + " ${model.dataContent?.receivedDate?.let { dateFormat.format(it) }}"
-                Text(
-                    text = receiveDateText,
-                    color = Color.LightGray,
-                    textAlign = TextAlign.Right,
-                    fontSize = 12.sp,
-                )
-                if ((model.dataContent != null)&&(model.dataContent?.sendDate != null))
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(4.dp)
+            ) {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                if (model.dataInitialized())
                 {
-                    val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
+                    val data = model.detailData
+                    DetailScreenTitle(navController, data.title)
+                    val receiveDateText = stringResource(id = R.string.received_date) + " ${model.dataContent?.receivedDate?.let { dateFormat.format(it) }}"
                     Text(
-                        text = sendDateText,
+                        text = receiveDateText,
                         color = Color.LightGray,
                         textAlign = TextAlign.Right,
                         fontSize = 12.sp,
                     )
+                    if ((model.dataContent != null)&&(model.dataContent?.sendDate != null))
+                    {
+                        val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
+                        Text(
+                            text = sendDateText,
+                            color = Color.LightGray,
+                            textAlign = TextAlign.Right,
+                            fontSize = 12.sp,
+                        )
+                    }
+                    ButtonArea(context, navController, model)
+                    Text(
+                        text = data.value,
+                        //color = Color.LightGray,
+                        fontSize = 14.sp,
+                    )
                 }
-                ButtonArea(context, navController, model)
-                Text(
-                    text = data.value,
-                    //color = Color.LightGray,
-                    fontSize = 14.sp,
-                )
-            }
-            else
-            {
-                DetailScreenTitle(navController, "?")
-                ButtonArea(context, navController, model)
-                Text(
-                    text = "??",
-                    color = Color.LightGray,
-                    fontSize = 14.sp,
-                )
+                else
+                {
+                    DetailScreenTitle(navController, "?")
+                    ButtonArea(context, navController, model)
+                    Text(
+                        text = "??",
+                        color = Color.LightGray,
+                        fontSize = 14.sp,
+                    )
+                }
             }
         }
     }
@@ -129,7 +139,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
             Icon(
                 painter = painterResource(id = R.drawable.baseline_watch_24),
                 contentDescription = "Send",
-                tint = Color.LightGray
+                tint = if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
             )
         }
         IconButton(
@@ -161,7 +171,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
             Icon(
                 imageVector = Icons.Default.Share,
                 contentDescription = "Share",
-                tint = Color.LightGray
+                tint = if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
             )
         }
         IconButton(
@@ -174,7 +184,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "Delete",
-                tint = Color.LightGray
+                tint = if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
             )
         }
         IconButton(
@@ -184,7 +194,7 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Back",
-                tint = Color.LightGray
+                tint = if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
             )
         }
     }
@@ -201,7 +211,8 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                         deleteDialog.value = false
                         model.deleteContent()
                         navController.popBackStack()
-                    }
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = SubGreen)
                 ) {
                     Text(stringResource(id = R.string.delete_ok_label))
                 }
@@ -210,7 +221,8 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                 TextButton(
                     onClick = {
                         deleteDialog.value = false
-                    }
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = SubGreen)
                 ) {
                     Text(stringResource(id = R.string.delete_cancel_label))
                 }

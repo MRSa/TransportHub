@@ -34,7 +34,6 @@ class DetailModel(val id: Int)
                     val storageDao = DbSingleton.db.storageDao()
                     dataContent = storageDao.findById(id)
                     detailData = DetailData(title = dataContent?.title ?: "?", value = dataContent?.note ?: "???", hash = dataContent?.hashValue ?: ">>")
-                    //Log.v("DataDetail", "DataDetail($id)\n${detailData.title}\n${detailData.value}")
                     isRefreshing = false
                 }
             }

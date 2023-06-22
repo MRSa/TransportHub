@@ -1,28 +1,24 @@
 package net.osdn.ja.gokigen.transporthub.mobile.ui
 
-import android.content.Intent
-import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,20 +30,27 @@ import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 fun PreferenceScreen(navController: NavHostController)
 {
     val padding = 2.dp
-
     TransportHubTheme {
-        Column {
-            PreferenceScreenTitle(navController)
-            Spacer(Modifier.size(padding))
-            Divider(color = Color.LightGray, thickness = 1.dp)
-            ShowWifiSetting()
-            Spacer(Modifier.size(padding))
-            Divider(color = Color.LightGray, thickness = 1.dp)
-            Spacer(Modifier.size(padding))
-            ShowAboutGokigen()
-            Spacer(Modifier.size(padding))
-            ShowGokigenPrivacyPolicy()
-            Spacer(Modifier.size(padding))
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            Column {
+                PreferenceScreenTitle(navController)
+                Spacer(Modifier.size(padding))
+                //Divider(color = Color.LightGray, thickness = 1.dp)
+                //ShowWifiSetting()
+                //Spacer(Modifier.size(padding))
+                //Divider(color = Color.LightGray, thickness = 1.dp)
+                Spacer(Modifier.size(padding))
+                ShowAboutGokigen()
+                Spacer(Modifier.size(padding))
+                Divider(color = Color.LightGray, thickness = 1.dp)
+                Spacer(Modifier.size(padding))
+                ShowGokigenPrivacyPolicy()
+                Spacer(Modifier.size(padding))
+                Divider(color = Color.LightGray, thickness = 1.dp)
+            }
         }
     }
 }
@@ -55,19 +58,15 @@ fun PreferenceScreen(navController: NavHostController)
 @Composable
 fun PreferenceScreenTitle(navController: NavHostController)
 {
-    val density = LocalDensity.current
     TopAppBar(
+        title = { Text(stringResource(id = R.string.app_name)) },
         modifier = Modifier.clickable(onClick = { navController.popBackStack() }),
         backgroundColor = Color(0xff3DDC84),
         contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
     )
-    {
-        Text(text = stringResource(id = R.string.pref_cat_application_settings),
-            fontSize = with(density) { 24.dp.toSp() },
-            modifier = Modifier.padding(all = 6.dp))
-    }
 }
 
+/*
 @Composable
 fun ShowWifiSetting()
 {
@@ -91,11 +90,10 @@ fun ShowWifiSetting()
         )
     }
 }
-
+*/
 @Composable
 fun ShowAboutGokigen()
 {
-    val density = LocalDensity.current
     val uriHandler = LocalUriHandler.current
     val openUri = stringResource(R.string.pref_instruction_manual_url)
     Row(modifier = Modifier.padding(all = 8.dp)) {
@@ -104,14 +102,14 @@ fun ShowAboutGokigen()
             Text(
                 text = stringResource(R.string.pref_instruction_manual),
                 color = MaterialTheme.colors.primaryVariant,
-                fontSize = with(density) { 18.sp }
+                fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = openUri,
                 color = MaterialTheme.colors.secondaryVariant,
                 modifier = Modifier.clickable(onClick = { uriHandler.openUri(openUri) }),
-                fontSize = with(density) { 14.sp }
+                fontSize = 14.sp
             )
         }
     }
@@ -120,7 +118,6 @@ fun ShowAboutGokigen()
 @Composable
 fun ShowGokigenPrivacyPolicy()
 {
-    val density = LocalDensity.current
     val uriHandler = LocalUriHandler.current
     val openUri = stringResource(R.string.pref_privacy_policy_url)
     Row(modifier = Modifier.padding(all = 8.dp)) {
@@ -129,14 +126,14 @@ fun ShowGokigenPrivacyPolicy()
             Text(
                 text = stringResource(R.string.pref_privacy_policy),
                 color = MaterialTheme.colors.primaryVariant,
-                fontSize = with(density) { 18.sp }
+                fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = openUri,
                 color = MaterialTheme.colors.secondaryVariant,
                 modifier = Modifier.clickable(onClick = { uriHandler.openUri(openUri) }),
-                fontSize = with(density) { 14.sp }
+                fontSize = 14.sp
             )
         }
     }

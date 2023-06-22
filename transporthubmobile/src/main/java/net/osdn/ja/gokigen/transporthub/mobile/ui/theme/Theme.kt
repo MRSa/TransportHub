@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-
 private val DarkColorPalette = darkColors(
     primary = AccentGreen,
     primaryVariant = SubGreen,
@@ -31,7 +30,7 @@ private val LightColorPalette = lightColors(
 fun TransportHubTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    //dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 )
 {
