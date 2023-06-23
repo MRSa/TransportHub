@@ -4,7 +4,7 @@
     <style name="Theme.A01Splash" parent="@style/Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/background_color</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/background_color</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/Theme.TransportHub</item>
     </style>
