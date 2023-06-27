@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'net.osdn.ja.gokigen.transporthub'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "net.osdn.ja.gokigen.transporthub"
         minSdk 25
-        targetSdk 33
-        versionCode 1002
-        versionName "1.0w"
+        targetSdk 34
+        versionCode 1012
+        versionName "1.01w"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -80,13 +80,13 @@ dependencies {
     implementation "androidx.wear.compose:compose-foundation:$wear_compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.activity:activity-compose:1.7.2'
-    implementation "androidx.wear.tiles:tiles:$wear_tiles_version"
-    implementation "androidx.wear.tiles:tiles-material:$wear_tiles_version"
+    //implementation "androidx.wear.tiles:tiles:$wear_tiles_version"
+    //implementation "androidx.wear.tiles:tiles-material:$wear_tiles_version"
     implementation "com.google.android.horologist:horologist-compose-tools:$horologist_version"
-    implementation "com.google.android.horologist:horologist-tiles:$horologist_version"
-    implementation 'androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1'
+    //implementation "com.google.android.horologist:horologist-tiles:$horologist_version"
+    //implementation 'androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1'
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    //androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 }

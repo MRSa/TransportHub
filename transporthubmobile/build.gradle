@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'net.osdn.ja.gokigen.transporthub.mobile'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "net.osdn.ja.gokigen.transporthub"
         minSdk 25
-        targetSdk 33
-        versionCode 1001
-        versionName "1.0m"
+        targetSdk 34
+        versionCode 1011
+        versionName "1.01m"
 
         vectorDrawables {
             useSupportLibrary true
