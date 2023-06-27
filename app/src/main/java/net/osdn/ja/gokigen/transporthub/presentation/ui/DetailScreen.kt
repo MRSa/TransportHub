@@ -66,29 +66,30 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
             timeText = {
                 TimeText(
                     timeSource = TimeTextDefaults.timeSource(
-                    DateFormat.getBestDateTimePattern(
-                        Locale.getDefault(),
-                        "HH:mm"
+                        DateFormat.getBestDateTimePattern(
+                            Locale.getDefault(),
+                            "HH:mm"
+                        ),
                     ),
-                ),
-                modifier = Modifier.scrollAway(scrollState = scrollState)
-            ) },
+                    modifier = Modifier.scrollAway(scrollState = scrollState)
+                ) },
             positionIndicator = {
                 PositionIndicator(scrollState = scrollState)
             },
         ) {
             Column(
                 modifier = Modifier
-                    .verticalScroll(scrollState)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .focusRequester(focusRequester)
-                    .focusable()
                     .onRotaryScrollEvent {
                         coroutineScope.launch {
                             scrollState.scrollBy(it.verticalScrollPixels)
                         }
                         true
                     }
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .focusRequester(focusRequester)
+                    .focusable()
+
             ) {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
                 if (model.dataInitialized()) {
@@ -245,7 +246,8 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
     if (deleteDialog.value)
     {
         AlertDialog(
-            modifier = Modifier.fillMaxSize(),//Modifier.padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 10.dp),
+            modifier = Modifier.fillMaxSize()
+                .padding(top = 20.dp, bottom = 0.dp, start = 4.dp, end = 12.dp),
             contentColor = defaultColorPalette.onSurface,
             onDismissRequest = {
                 deleteDialog.value = false
