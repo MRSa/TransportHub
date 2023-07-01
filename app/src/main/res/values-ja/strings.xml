@@ -26,4 +26,7 @@
     <string name="delete_confirm_message">削除します。</string>
     <string name="delete_ok_label">OK</string>
     <string name="delete_cancel_label">Cancel</string>
+
+    <string name="data_imported">登録: </string>
+    <string name="data_not_import">既に登録済: </string>
 </resources>

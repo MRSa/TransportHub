@@ -139,7 +139,13 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             if (intent?.action == Intent.ACTION_SEND)
             {
                 Log.v(TAG, "Received Intent")
-                handleReceivedIntent(intent, storageDao)
+                val flags = intent.flags
+                val checkFlags = Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
+                if ((flags.and(checkFlags)) == 0)
+                {
+                    Log.v(TAG, " DATA IMPORT ")
+                    handleReceivedIntent(intent, storageDao)
+                }
             }
         }
         try
@@ -226,6 +232,7 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             Log.v(TAG, "RECEIVED INTENT (Title: $title , DIGEST: $digest) Length: ${checkString.length}")
 
             // いちおう本文とタイトルのハッシュで既に登録済か確認する
+            var message = getString(R.string.data_imported) + title
             val check = dao.findByHash(digest)
             if (check.isEmpty())
             {
@@ -235,7 +242,12 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             }
             else
             {
+                message = getString(R.string.data_not_import) + title
                 Log.v(TAG, " ===== DATA CONTENT IS ALREADY REGISTERED =====")
+            }
+            runOnUiThread {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
         catch (e: Exception)

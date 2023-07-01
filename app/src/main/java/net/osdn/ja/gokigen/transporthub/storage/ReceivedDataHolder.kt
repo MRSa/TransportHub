@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [DataContent::class], version = 1, exportSchema = false)
+@Database(entities = [DataContent::class], version = 1, exportSchema = true)
 @TypeConverters(DateConverter::class)
 abstract class ReceivedDataHolder: RoomDatabase()
 {

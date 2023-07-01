@@ -18,6 +18,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+/*
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += [
@@ -25,6 +26,10 @@ android {
                         "room.incremental":"true"
                 ]
             }
+        }
+*/
+        ksp {
+            arg('room.schemaLocation', "$projectDir/schemas")
         }
     }
     buildTypes {
