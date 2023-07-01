@@ -125,14 +125,17 @@ class MainActivity : ComponentActivity()
     {
         try
         {
+            val md = MessageDigest.getInstance("MD5")
             val title = intent.getStringExtra(Intent.EXTRA_SUBJECT)
             val data = intent.getStringExtra(Intent.EXTRA_TEXT)
-            val checkString:String = title + data
-            // Intent.EXTRA_STREAM の処理を行っていない
 
-            val md = MessageDigest.getInstance("SHA-256")
-            val digest = md.digest(checkString.toByteArray()).toString()
-            Log.v(TAG, "RECEIVED INTENT (Title: $title , DIGEST: $digest) Length: ${checkString.length}")
+            val checkString = title + data
+            val digestArray = md.digest(checkString.toByteArray())
+
+            var digest = ""
+            digestArray.forEach { digest += "%02x".format(it) }
+
+            Log.v(TAG, "RECEIVED INTENT (Title: $title , DIGEST: ${digestArray.size} ${md.digestLength}) Length: ${checkString.length}")
 
             // いちおう本文とタイトルのハッシュで既に登録済か確認する
             val check = dao.findByHash(digest)
@@ -144,7 +147,7 @@ class MainActivity : ComponentActivity()
             }
             else
             {
-                Log.v(TAG, " ===== DATA CONTENT IS ALREADY REGISTERED =====")
+                Log.v(TAG, " ===== DATA CONTENT IS ALREADY REGISTERED : IGNORE =====")
             }
         }
         catch (e: Exception)

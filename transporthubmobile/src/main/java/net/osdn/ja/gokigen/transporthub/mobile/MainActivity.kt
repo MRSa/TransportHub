@@ -171,8 +171,11 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
                     val title = detailData.title
                     val data = detailData.value
                     val checkString:String = title + data
-                    val md = MessageDigest.getInstance("SHA-256")
-                    val digest = md.digest(checkString.toByteArray()).toString()
+                    val md = MessageDigest.getInstance("MD5")
+                    val digestArray = md.digest(checkString.toByteArray())
+                    var digest = ""
+                    digestArray.forEach { digest += "%02x".format(it) }
+
                     Log.v(TAG, " ========== INSERT (Title: $title , DIGEST: $digest) Length: ${checkString.length}")
 
                     // いちおう本文とタイトルのハッシュで既に登録済か確認する
@@ -216,8 +219,10 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             val checkString:String = title + data
             // Intent.EXTRA_STREAM の処理を行っていない
 
-            val md = MessageDigest.getInstance("SHA-256")
-            val digest = md.digest(checkString.toByteArray()).toString()
+            val md = MessageDigest.getInstance("MD5")
+            val digestArray = md.digest(checkString.toByteArray())
+            var digest = ""
+            digestArray.forEach { digest += "%02x".format(it) }
             Log.v(TAG, "RECEIVED INTENT (Title: $title , DIGEST: $digest) Length: ${checkString.length}")
 
             // いちおう本文とタイトルのハッシュで既に登録済か確認する
