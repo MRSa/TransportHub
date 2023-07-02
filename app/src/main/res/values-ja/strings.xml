@@ -20,6 +20,7 @@
     <string name="permission_not_granted">必要な権限が有効ではありません。有効にしてください。</string>
     <string name="received_date">受信:</string>
     <string name="send_date">送信:</string>
+    <string name="shared_date">共有:</string>
     <string name="data_empty">受信データはありません。</string>
 
     <string name="delete_confirm_title">削除確認</string>

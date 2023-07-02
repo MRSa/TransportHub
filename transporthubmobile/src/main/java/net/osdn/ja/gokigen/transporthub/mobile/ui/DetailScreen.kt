@@ -37,12 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import net.osdn.ja.gokigen.transporthub.mobile.ContentDataSender
+import net.osdn.ja.gokigen.transporthub.mobile.DbSingleton
 import net.osdn.ja.gokigen.transporthub.mobile.R
 import net.osdn.ja.gokigen.transporthub.mobile.model.DetailModel
 import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.SubGreen
 
 import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -77,6 +79,16 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                         val sendDateText = stringResource(id = R.string.send_date) + " ${model.dataContent?.sendDate?.let { dateFormat.format(it) }}"
                         Text(
                             text = sendDateText,
+                            color = Color.LightGray,
+                            textAlign = TextAlign.Right,
+                            fontSize = 12.sp,
+                        )
+                    }
+                    if ((model.dataContent != null)&&(model.dataContent?.sharedDate != null))
+                    {
+                        val sharedDateText = stringResource(id = R.string.shared_date) + " ${model.dataContent?.sharedDate?.let { dateFormat.format(it) }}"
+                        Text(
+                            text = sharedDateText,
                             color = Color.LightGray,
                             textAlign = TextAlign.Right,
                             fontSize = 12.sp,
@@ -158,8 +170,21 @@ fun ButtonArea(context: Context, navController: NavHostController, model: Detail
                     //val shareIntent = Intent.createChooser(sendIntent, null)
                     context.startActivity(sendIntent)
                     Log.v("DetailData", "<<< SEND INTENT >>> : ${model.detailData.title}")
-                    Toast.makeText(context, context.getString(R.string.intent_issued), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
 
+                    // 共有を実行した時刻を設定する
+                    val thread = Thread {
+                        val storageDao = DbSingleton.db.storageDao()
+                        storageDao.updateSharedDate(model.id, Date())
+                    }
+                    try
+                    {
+                        thread.start()
+                        Toast.makeText(context, context.getString(R.string.intent_issued), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+                    }
+                    catch (ee: Exception)
+                    {
+                        ee.printStackTrace()
+                    }
                 }
                 catch (e: Exception)
                 {

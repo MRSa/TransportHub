@@ -26,6 +26,9 @@ interface DataContentDao
     @Query("UPDATE contents SET send_date = :sendDate WHERE id = :id")
     fun updateSendDate(id: Int, sendDate: Date)
 
+    @Query("UPDATE contents SET shared_date = :sharedDate WHERE id = :id")
+    fun updateSharedDate(id: Int, sharedDate: Date)
+
     @Query("UPDATE contents SET checked = :checked WHERE id = :id")
     fun updateChecked(id: Int, checked: Boolean)
 

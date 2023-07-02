@@ -38,11 +38,29 @@ fun DataItem(navController: NavHostController, data: DataContent)
             tint =
             if (data.sendDate == null)
             {
-               if(isSystemInDarkTheme()) { Color.DarkGray } else { Color.LightGray }
+                if (data.sharedDate == null)
+                {
+                    // send: no, share: no  (dark grey)
+                    if(isSystemInDarkTheme()) { Color.DarkGray } else { Color.LightGray }
+                }
+                else
+                {
+                    // send: no, share: yes  (dark yellow)
+                    if(isSystemInDarkTheme()) { Color(48, 182, 127)  } else { Color(96, 182, 96) }
+                }
             }
             else
             {
-                if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
+                if (data.sharedDate == null)
+                {
+                    // send: yes, share: no
+                    if(isSystemInDarkTheme()) { Color(215, 182, 61) } else { Color(127, 127, 37) }
+                }
+                else
+                {
+                    // send: yes, share: yes
+                    if(isSystemInDarkTheme()) { Color.LightGray } else { Color.DarkGray }
+                }
             },
         )
         Column(

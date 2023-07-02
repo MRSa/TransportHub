@@ -22,72 +22,77 @@ class ContentDataSender(val context: Context)
         {
             Log.v(TAG, "---------- sendContent : '${model.detailData.title}'")
             val thread = Thread {
-                val nodeListTask: Task<List<Node>> = Wearable.getNodeClient(context).connectedNodes
-                val myNodeTask: Task<Node> = Wearable.getNodeClient(context).localNode
-                val myNode: Node = Tasks.await(myNodeTask)
-                val nodes: List<Node> = Tasks.await(nodeListTask)
-                var sentCount = 0
-                // Log.v(TAG, " = = = My Node: ${myNode.displayName}")
-                for (node in nodes)
+                try
                 {
-                    if (node == myNode)
+                    val nodeListTask: Task<List<Node>> = Wearable.getNodeClient(context).connectedNodes
+                    val myNodeTask: Task<Node> = Wearable.getNodeClient(context).localNode
+                    val myNode: Node = Tasks.await(myNodeTask)
+                    val nodes: List<Node> = Tasks.await(nodeListTask)
+                    var sentCount = 0
+                    for (node in nodes)
                     {
-                        //  ----- 自ノードの場合は、送信しない -----
-                        Log.v(TAG, " - - - My Node: ${myNode.displayName}")
-                        continue
-                    }
-
-                    val messageClient: MessageClient = Wearable.getMessageClient(context)
-
-                    //  ----- データをシリアライズして送信する ----
-                    val parcel = Parcel.obtain()
-                    model.detailData.writeToParcel(parcel, 0)
-                    val detailDataBytes = parcel.marshall()
-                    parcel.recycle()
-
-                    val clientTask = messageClient.sendMessage(
-                        node.id,
-                        "/message_transfer",
-                        detailDataBytes
-                    ).apply {
-                        addOnSuccessListener {
-                            Log.v(TAG, "Transport Success : ${node.displayName}")
-                            val thread = Thread {
-                                val storageDao = DbSingleton.db.storageDao()
-                                storageDao.updateSendDate(model.id, Date())
-                            }
-                            try
-                            {
-                                thread.start()
-                                Toast.makeText(context, context.getString(R.string.data_transferred), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
-                                //Toast.makeText(context, context.getString(R.string.data_transferred) + " : " + node.displayName, Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
-                            }
-                            catch (ee: Exception)
-                            {
-                                ee.printStackTrace()
-                            }
+                        if (node == myNode)
+                        {
+                            //  ----- 自ノードの場合は、送信しない -----
+                            Log.v(TAG, " - - - My Node: ${myNode.displayName}")
+                            continue
                         }
-                        addOnFailureListener { Log.v(TAG, "Transport Failure : ${node.displayName}") }
+                        val messageClient: MessageClient = Wearable.getMessageClient(context)
+
+                        //  ----- データをシリアライズして送信する ----
+                        val parcel = Parcel.obtain()
+                        model.detailData.writeToParcel(parcel, 0)
+                        val detailDataBytes = parcel.marshall()
+                        parcel.recycle()
+
+                        val clientTask = messageClient.sendMessage(
+                            node.id,
+                            "/message_transfer",
+                            detailDataBytes
+                        ).apply {
+                            addOnSuccessListener {
+                                Log.v(TAG, "Transport Success : ${node.displayName}")
+                                val thread = Thread {
+                                    val storageDao = DbSingleton.db.storageDao()
+                                    storageDao.updateSendDate(model.id, Date())
+                                }
+                                try
+                                {
+                                    thread.start()
+                                    Toast.makeText(context, context.getString(R.string.data_transferred), Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+                                    //Toast.makeText(context, context.getString(R.string.data_transferred) + " : " + node.displayName, Toast.LENGTH_SHORT).show()  // UIスレッドで実行が必要
+                                }
+                                catch (ee: Exception)
+                                {
+                                    ee.printStackTrace()
+                                }
+                            }
+                            addOnFailureListener { Log.v(TAG, "Transport Failure : ${node.displayName}") }
+                        }
+                        try
+                        {
+                            val result = Tasks.await(clientTask, TIMEOUT, TimeUnit.SECONDS)
+                            Log.v(TAG, " sent : '${model.detailData.title}' (${node.displayName}) result:$result bytes:${detailDataBytes.size}")
+                            sentCount++
+                        }
+                        catch (ee: Exception)
+                        {
+                            ee.printStackTrace()
+                        }
                     }
-                    try
-                    {
-                        val result = Tasks.await(clientTask, TIMEOUT, TimeUnit.SECONDS)
-                        Log.v(TAG, " sent : '${model.detailData.title}' (${node.displayName}) result:$result bytes:${detailDataBytes.size}")
-                        sentCount++
-                    }
-                    catch (ee: Exception)
-                    {
-                        ee.printStackTrace()
-                    }
+                    Log.v(TAG, "---------- sendContent : $sentCount")
+                    System.gc()
                 }
-                Log.v(TAG, "---------- sendContent : $sentCount")
-                System.gc()
+                catch (e: Exception)
+                {
+                    e.printStackTrace()
+                }
             }
             thread.start()
         }
-        catch (e: Exception)
+        catch (t: Throwable)
         {
-            e.printStackTrace()
+            t.printStackTrace()
         }
     }
 

@@ -35,15 +35,32 @@ fun DataItem(navController: NavHostController, data: DataContent)
                 .clickable(onClick = { navController.navigate("DetailScreen/$dataId") }),
             imageVector = Icons.Default.Check,
             contentDescription = "Check",
-            tint =
-                if (data.sendDate == null)
+            tint = if (data.sendDate == null)
+            {
+                if (data.sharedDate == null)
                 {
+                    // send: no, share: no  (dark gray)
                     Color.DarkGray
                 }
                 else
                 {
+                    // send: no, share: yes
+                    Color(48, 182, 127)
+                }
+            }
+            else
+            {
+                if (data.sharedDate == null)
+                {
+                    // send: yes, share: no
+                    Color(215, 182, 61)
+                }
+                else
+                {
+                    // send: yes, share: yes (Light Gray)
                     Color.LightGray
-                },
+                }
+            },
             )
         Column(
             modifier = Modifier
