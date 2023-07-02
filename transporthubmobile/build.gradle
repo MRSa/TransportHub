@@ -13,13 +13,12 @@ android {
         applicationId "net.osdn.ja.gokigen.transporthub"
         minSdk 25
         targetSdk 34
-        versionCode 1011
-        versionName "1.01m"
+        versionCode 1021
+        versionName "1.02m"
 
         vectorDrawables {
             useSupportLibrary true
         }
-
         ksp {
             arg('room.schemaLocation', "$projectDir/schemas")
         }
@@ -80,6 +79,5 @@ dependencies {
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
-
-
 }
+
