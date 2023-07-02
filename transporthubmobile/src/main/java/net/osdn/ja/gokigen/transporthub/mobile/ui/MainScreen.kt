@@ -83,7 +83,7 @@ fun ReceivedContentList(navController: NavHostController, dataListModel: DataLis
     val listState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         state = listState
     ) {
         this.items(dataListModel.dataList) { data ->
