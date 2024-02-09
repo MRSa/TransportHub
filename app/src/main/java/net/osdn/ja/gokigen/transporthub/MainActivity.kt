@@ -132,8 +132,22 @@ class MainActivity : ComponentActivity()
         try
         {
             val md = MessageDigest.getInstance("MD5")
-            val title = intent.getStringExtra(Intent.EXTRA_SUBJECT)
+            val titleData = intent.getStringExtra(Intent.EXTRA_SUBJECT)
             val data = intent.getStringExtra(Intent.EXTRA_TEXT)
+
+            val title = if (titleData == null) {
+                // タイトルが空白だった場合は、本文から切り出しを行う
+                var index = data?.indexOf(System.lineSeparator()) ?: 0
+                if ((index > 50)||(index <= 0))
+                {
+                    index = 50
+                }
+                data?.substring(0, index)
+            }
+            else
+            {
+                titleData
+            }
 
             val checkString = title + data
             val digestArray = md.digest(checkString.toByteArray())

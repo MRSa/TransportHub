@@ -220,8 +220,23 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
     {
         try
         {
-            val title = intent.getStringExtra(Intent.EXTRA_SUBJECT)
+            val titleData = intent.getStringExtra(Intent.EXTRA_SUBJECT)
             val data = intent.getStringExtra(Intent.EXTRA_TEXT)
+
+            val title = if (titleData == null) {
+                // タイトルが空白だった場合は、本文から切り出しを行う
+                var index = data?.indexOf(System.lineSeparator()) ?: 0
+                if ((index > 50)||(index <= 0))
+                {
+                    index = 50
+                }
+                data?.substring(0, index)
+            }
+            else
+            {
+                titleData
+            }
+
             val checkString:String = title + data
             // Intent.EXTRA_STREAM の処理を行っていない
 
@@ -229,6 +244,7 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             val digestArray = md.digest(checkString.toByteArray())
             var digest = ""
             digestArray.forEach { digest += "%02x".format(it) }
+
             Log.v(TAG, "RECEIVED INTENT (Title: $title , DIGEST: $digest) Length: ${checkString.length}")
 
             // いちおう本文とタイトルのハッシュで既に登録済か確認する

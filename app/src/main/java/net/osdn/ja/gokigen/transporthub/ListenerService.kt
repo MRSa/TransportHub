@@ -56,7 +56,14 @@ class ListenerService : WearableListenerService()
                     val detailData = parcelableCreator<DetailData>().createFromParcel(parcel)
                     parcel.recycle()
 
-                    val title = detailData.title
+                    val title = detailData.title.ifEmpty {
+                        // タイトルが空白だった場合は、本文から切り出しを行う
+                        var index = detailData.value.indexOf(System.lineSeparator())
+                        if ((index > 40)||(index <= 0)) {
+                            index = 40
+                        }
+                        detailData.value.substring(0, index)
+                    }
                     val data = detailData.value
                     val checkString:String = title + data
                     val md = MessageDigest.getInstance("MD5")
