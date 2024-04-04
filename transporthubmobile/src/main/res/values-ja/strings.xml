@@ -17,9 +17,9 @@
     <string name="intent_issued">データを共有します。</string>
 
     <string name="pref_instruction_manual">操作説明</string>
-    <string name="pref_instruction_manual_url">https://osdn.net/projects/gokigen/wiki/TransportHub</string>
+    <string name="pref_instruction_manual_url">https://github.com/MRSa/GokigenOSDN_documents/blob/main/Applications/TransportHub/Readme.md</string>
     <string name="pref_privacy_policy">プライバシーポリシー</string>
-    <string name="pref_privacy_policy_url">https://osdn.net/projects/gokigen/wiki/PrivacyPolicy</string>
+    <string name="pref_privacy_policy_url">https://github.com/MRSa/GokigenOSDN_documents/blob/main/PrivacyPolicy.md</string>
 
     <string name="data_imported">データ登録: </string>
     <string name="data_not_import">既に登録済データです: </string>

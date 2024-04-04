@@ -57,7 +57,7 @@ fun MobileApp(navController: NavHostController, dataListModel: DataListModel)
 fun MainTopBar(navController: NavHostController)
 {
     val context = LocalContext.current
-    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://osdn.net/projects/gokigen/wiki/TransportHub")) }
+    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MRSa/GokigenOSDN_documents/blob/main/Applications/TransportHub/Readme.md")) }
     TopAppBar(
         title = {
             Text(stringResource(id = R.string.app_name))
