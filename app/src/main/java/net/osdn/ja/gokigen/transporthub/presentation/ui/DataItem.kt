@@ -33,7 +33,7 @@ fun DataItem(navController: NavHostController, data: DataContent)
         Icon(
             modifier =  Modifier
                 .clickable(onClick = { navController.navigate("DetailScreen/$dataId") }),
-            imageVector = Icons.Default.Check,
+            imageVector = Icons.Filled.Check,
             contentDescription = "Check",
             tint = if (data.sendDate == null)
             {
