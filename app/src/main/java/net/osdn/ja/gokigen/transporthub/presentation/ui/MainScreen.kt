@@ -2,6 +2,7 @@ package net.osdn.ja.gokigen.transporthub.presentation.ui
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,9 +28,12 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.TimeTextDefaults
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Vignette
+import androidx.wear.compose.material.VignettePosition
 import androidx.wear.compose.material.scrollAway
 import kotlinx.coroutines.launch
 import net.osdn.ja.gokigen.transporthub.R
@@ -41,53 +45,70 @@ import java.util.Locale
 @Composable
 fun WearApp(navController: NavHostController, dataListModel: DataListModel)
 {
-    dataListModel.refresh()
+    //dataListModel.refresh()
+    LaunchedEffect(Unit) {
+        dataListModel.refresh() // 初回コンポジション時にのみデータをリフレッシュ
+    }
 
     GokigenComposeAppsTheme {
         val focusRequester = remember { FocusRequester() }
         val coroutineScope = rememberCoroutineScope()
         val listState = rememberScalingLazyListState()
         Scaffold(
-            timeText = { TimeText(
-                timeSource = TimeTextDefaults.timeSource(
-                    DateFormat.getBestDateTimePattern(
-                        Locale.getDefault(),
-                        "HH:mm"
+            timeText = {
+                TimeText(
+                    timeSource = TimeTextDefaults.timeSource(
+                        DateFormat.getBestDateTimePattern(
+                            Locale.getDefault(),
+                            "HH:mm"
+                        ),
                     ),
-                ),
-                modifier = Modifier.scrollAway(scrollState = listState)
-            ) },
+                    modifier = Modifier.scrollAway(scrollState = listState)
+                )
+            },
+            vignette = {
+                Vignette(vignettePosition = VignettePosition.TopAndBottom)
+            },
             positionIndicator = {
                 PositionIndicator(scalingLazyListState = listState)
             },
         ) {
-            ScalingLazyColumn(
-                modifier = Modifier.fillMaxSize()
-                    .onRotaryScrollEvent {
-                    coroutineScope.launch {
-                        listState.scrollBy(it.verticalScrollPixels)
-                    }
-                        true
-                    }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                contentPadding = PaddingValues(
-                    top = 32.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 32.dp,
-                ),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Start,
-                state = listState
-            ) {
-                this.items(dataListModel.dataList) { data ->
-                    key(data.id) {
-                        DataItem(navController, data)
+            if (!dataListModel.dataList.isEmpty())
+            {
+                ScalingLazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                        .onRotaryScrollEvent {
+                            coroutineScope.launch {
+                                listState.scrollBy(it.verticalScrollPixels)
+                            }
+                            true
+                        }
+                        .focusRequester(focusRequester)
+                        .focusable(),
+                    contentPadding = PaddingValues(
+                        top = 32.dp,
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 32.dp,
+                    ),
+                    state = listState,
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    anchorType = ScalingLazyListAnchorType.ItemStart
+                ) {
+                    this.items(
+                        items = dataListModel.dataList,
+                        key = { data -> data.id }
+                    ) {
+                        data -> DataItem(navController, data)
+                        //key(data.id) {
+                        //    DataItem(navController, data)
+                        //}
                     }
                 }
             }
-            if (dataListModel.dataList.isEmpty()) {
+            else
+            {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
