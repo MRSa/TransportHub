@@ -5,7 +5,10 @@ import android.util.AttributeSet
 import android.util.Log
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.AbstractComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -18,21 +21,22 @@ import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsThe
 
 class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : AbstractComposeView(context, attrs, defStyleAttr)
 {
-    private val viewModel = DataListModel()
+    //private val dataListModel = DataListModel()
 
     @Composable
     override fun Content()
     {
         val navController = rememberSwipeDismissableNavController()
-
+        val dataListModel: DataListModel = viewModel()
         GokigenComposeAppsTheme {
             Surface(color = MaterialTheme.colors.background) {
-                NavigationMain(context, navController, viewModel)
+                NavigationMain(navController, dataListModel)
             }
         }
-        Log.v(TAG, " ...NavigationRootComponent...")
+        LaunchedEffect(key1 = Unit) {
+            Log.v(TAG, " ...NavigationRootComponent...")
+        }
     }
-
     companion object
     {
         private val TAG = ViewRoot::class.java.simpleName
@@ -40,28 +44,27 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 }
 
 @Composable
-fun NavigationMain(context: Context, navController: NavHostController, dataListModel: DataListModel)
+fun NavigationMain(navController: NavHostController, dataListModel: DataListModel)
 {
-    GokigenComposeAppsTheme {
-        SwipeDismissableNavHost(
-            //NavHost(
-            navController = navController,
-            startDestination = "MainScreen",
+    val context = LocalContext.current
+    SwipeDismissableNavHost(
+        //NavHost(
+        navController = navController,
+        startDestination = "MainScreen",
+    ) {
+        composable(
+            route = "MainScreen"
         ) {
-            composable(
-                route = "MainScreen"
-            ) {
-                WearApp(navController = navController, dataListModel = dataListModel)
-            }
-            composable(
-                route = "DetailScreen/{id}",
-                arguments = listOf(
-                    navArgument("id") { type = NavType.IntType }
-                )
-            ) { backStackEntry ->
-                val id = backStackEntry.arguments?.getInt("id") ?: 0
-                DataDetail(context = context, navController = navController, id = id)
-            }
+            WearApp(navController = navController, dataListModel = dataListModel)
+        }
+        composable(
+            route = "DetailScreen/{id}",
+            arguments = listOf(
+                navArgument("id") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id") ?: 0
+            DataDetail(context = context, navController = navController, id = id)
         }
     }
 }

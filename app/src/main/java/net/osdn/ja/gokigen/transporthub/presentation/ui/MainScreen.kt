@@ -2,7 +2,6 @@ package net.osdn.ja.gokigen.transporthub.presentation.ui
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -106,6 +104,7 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
                         //}
                     }
                 }
+                LaunchedEffect(Unit) { focusRequester.requestFocus() }
             }
             else
             {
@@ -124,7 +123,7 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
 
                 }
             }
-            LaunchedEffect(Unit) { focusRequester.requestFocus() }
+            //LaunchedEffect(Unit) { focusRequester.requestFocus() }
         }
     }
 }

@@ -1,13 +1,12 @@
 package net.osdn.ja.gokigen.transporthub.mobile.ui
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,7 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +34,14 @@ import androidx.navigation.NavHostController
 import net.osdn.ja.gokigen.transporthub.mobile.R
 import net.osdn.ja.gokigen.transporthub.mobile.model.DataListModel
 import net.osdn.ja.gokigen.transporthub.mobile.ui.theme.TransportHubTheme
+import androidx.core.net.toUri
 
 @Composable
 fun MobileApp(navController: NavHostController, dataListModel: DataListModel)
 {
-    dataListModel.refresh()
+    LaunchedEffect(key1 = Unit) {
+        dataListModel.refresh()
+    }
     TransportHubTheme {
         Scaffold(
             topBar = { MainTopBar(navController) },
@@ -47,8 +49,7 @@ fun MobileApp(navController: NavHostController, dataListModel: DataListModel)
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background),
         ) {
-            Modifier.padding(it).fillMaxWidth()
-            ReceivedContentList(navController,dataListModel)
+                paddingValues -> ReceivedContentList(navController, dataListModel, paddingValues)
         }
     }
 }
@@ -57,11 +58,14 @@ fun MobileApp(navController: NavHostController, dataListModel: DataListModel)
 fun MainTopBar(navController: NavHostController)
 {
     val context = LocalContext.current
-    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MRSa/GokigenOSDN_documents/blob/main/Applications/TransportHub/Readme.md")) }
+    val intent = remember { Intent(Intent.ACTION_VIEW,
+        "https://github.com/MRSa/GokigenOSDN_documents/blob/main/Applications/TransportHub/Readme.md".toUri()) }
     TopAppBar(
         title = {
             Text(stringResource(id = R.string.app_name))
         },
+        //backgroundColor = MaterialTheme.colors.primary,
+        //contentColor = MaterialTheme.colors.onPrimary,
         backgroundColor = Color(0xff3DDC84),
         contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
         actions = {
@@ -78,23 +82,33 @@ fun MainTopBar(navController: NavHostController)
 }
 
 @Composable
-fun ReceivedContentList(navController: NavHostController, dataListModel: DataListModel)
+fun ReceivedContentList(navController: NavHostController, dataListModel: DataListModel, paddingValues: PaddingValues)
 {
     val listState = rememberLazyListState()
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        state = listState
-    ) {
-        this.items(dataListModel.dataList) { data ->
-            key(data.id) {
+
+    if (!dataListModel.dataList.isEmpty())
+    {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
+            verticalArrangement = Arrangement.Top,
+            state = listState
+        ) {
+            items(dataListModel.dataList, key = { it.id }) { data ->
                 DataItem(navController, data)
             }
+/*
+            this.items(dataListModel.dataList) { data ->
+                key(data.id) {
+                    DataItem(navController, data)
+                }
+            }
+ */
         }
     }
-    if (dataListModel.dataList.isEmpty()) {
+    else
+    {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         )
