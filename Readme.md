@@ -75,13 +75,13 @@ Google Play からインストールできます。スマートフォンおよ�
 
 ### 設定画面(モバイルのみ)
 
-モバイルデバイス用アプリでは、[本ページ](https://github.com/MRSa/TransportHub/Readme.md)や、[プライバシーポリシーのページ](https://github.com/MRSa/GokigenOSDN_documents/blob/main/PrivacyPolicy.md)を表示するためのリンクがある画面があります。
+モバイルデバイス用アプリでは、[本ページ](https://github.com/MRSa/TransportHub/blob/master/Readme.md)や、[プライバシーポリシーのページ](https://github.com/MRSa/GokigenOSDN_documents/blob/main/PrivacyPolicy.md)を表示するためのリンクがある画面があります。
 
 ![TransportHubについて](https://github.com/MRSa/GokigenOSDN_documents/blob/main/Applications/TransportHub/images/TH-about.png)
 
 #### 操作説明
 
-操作説明のページ（[本ページ](https://github.com/MRSa/TransportHub/Readme.md)）を開きます。
+操作説明のページ（[本ページ](https://github.com/MRSa/TransportHub/blob/master/Readme.md)）を開きます。
 
 #### プライバシーポリシー
 
