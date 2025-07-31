@@ -43,7 +43,6 @@ import java.util.Locale
 @Composable
 fun WearApp(navController: NavHostController, dataListModel: DataListModel)
 {
-    //dataListModel.refresh()
     LaunchedEffect(Unit) {
         dataListModel.refresh() // 初回コンポジション時にのみデータをリフレッシュ
     }
@@ -99,9 +98,6 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
                         key = { data -> data.id }
                     ) {
                         data -> DataItem(navController, data)
-                        //key(data.id) {
-                        //    DataItem(navController, data)
-                        //}
                     }
                 }
                 LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -123,7 +119,6 @@ fun WearApp(navController: NavHostController, dataListModel: DataListModel)
 
                 }
             }
-            //LaunchedEffect(Unit) { focusRequester.requestFocus() }
         }
     }
 }

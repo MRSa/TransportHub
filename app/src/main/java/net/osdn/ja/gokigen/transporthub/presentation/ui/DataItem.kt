@@ -3,8 +3,11 @@ package net.osdn.ja.gokigen.transporthub.presentation.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -29,45 +32,33 @@ fun DataItem(navController: NavHostController, data: DataContent)
 {
     val dateFormat = remember { SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()) }
     val dataId = data.id
-    Row()
-    {
+
+    // アイコンの色を決定するヘルパー関数
+    val iconTint = remember(data.sendDate, data.sharedDate) {
+        when {
+            data.sendDate == null && data.sharedDate == null -> Color.DarkGray // send: no, share: no
+            data.sendDate == null && data.sharedDate != null -> Color(48, 182, 127) // send: no, share: yes
+            data.sendDate != null && data.sharedDate == null -> Color(215, 182, 61) // send: yes, share: no
+            else -> Color.LightGray // send: yes, share: yes
+        }
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth() // Row全体をクリック可能にする
+            .clickable(onClick = { navController.navigate("DetailScreen/$dataId") })
+            .padding(4.dp) // Rowにパディングを移動
+    ) {
         Icon(
-            modifier =  Modifier
-                .clickable(onClick = { navController.navigate("DetailScreen/$dataId") }),
             imageVector = Icons.Filled.Check,
-            contentDescription = "Check",
-            tint = if (data.sendDate == null)
-            {
-                if (data.sharedDate == null)
-                {
-                    // send: no, share: no  (dark gray)
-                    Color.DarkGray
-                }
-                else
-                {
-                    // send: no, share: yes
-                    Color(48, 182, 127)
-                }
-            }
-            else
-            {
-                if (data.sharedDate == null)
-                {
-                    // send: yes, share: no
-                    Color(215, 182, 61)
-                }
-                else
-                {
-                    // send: yes, share: yes (Light Gray)
-                    Color.LightGray
-                }
-            },
-            )
+            contentDescription = stringResource(R.string.check_icon_description), // contentDescriptionも文字列リソース化
+            tint = iconTint,
+            modifier = Modifier.size(24.dp) // アイコンのサイズを明示的に指定
+        )
+        Spacer(modifier = Modifier.width(8.dp)) // アイコンとテキストの間にスペースを追加
+
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp)
-                .clickable(onClick = { navController.navigate("DetailScreen/$dataId") })
+            modifier = Modifier.weight(1f) // 残りのスペースを埋める
         ) {
             data.title?.let {
                 Text(
@@ -77,15 +68,9 @@ fun DataItem(navController: NavHostController, data: DataContent)
                     modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
                 )
             }
+            val formattedReceivedDate = data.receivedDate?.let { dateFormat.format(it) } ?: ""
             Text(
-                //text =  " ${data.receivedDate?.let { dateFormat.format(it) }}",
-                text = stringResource(R.string.received_date) + " ${
-                    data.receivedDate?.let {
-                        dateFormat.format(
-                            it
-                        )
-                    }
-                }",
+                text = stringResource(R.string.received_date_format, formattedReceivedDate), // プレースホルダーを使用
                 fontSize = 12.sp,
                 color = Color.LightGray,
                 textAlign = TextAlign.Right,

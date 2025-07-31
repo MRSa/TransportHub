@@ -1,6 +1,5 @@
 package net.osdn.ja.gokigen.transporthub.presentation.ui
 
-import android.content.Context
 import android.content.Intent
 import android.text.format.DateFormat
 import android.util.Log
@@ -26,6 +25,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,6 +34,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,11 +58,15 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun DataDetail(context: Context, navController: NavHostController, id : Int)
+fun DataDetail(navController: NavHostController, id : Int)
 {
-    val model = DetailModel(id)
+    val model: DetailModel = remember(id) { DetailModel(id) }
+    val columnFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(id) {
+        columnFocusRequester.requestFocus() // データロード後にフォーカスをリクエスト
+    }
     GokigenComposeAppsTheme {
-        val focusRequester = remember { FocusRequester() }
         val coroutineScope = rememberCoroutineScope()
         val scrollState = rememberScrollState()
         Scaffold(
@@ -89,7 +94,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                     }
                     .verticalScroll(scrollState)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .focusRequester(focusRequester)
+                    .focusRequester(columnFocusRequester)
                     .focusable()
 
             ) {
@@ -131,7 +136,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                             fontSize = 11.sp,
                         )
                     }
-                    ButtonArea(context, navController, model)
+                    ButtonArea(navController, model)
                     Text(
                         text = data.value,
                         color = Color.LightGray,
@@ -139,7 +144,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
                     )
                 } else {
                     DetailScreenTitle(navController, "?")
-                    ButtonArea(context, navController, model)
+                    ButtonArea(navController, model)
                     Text(
                         text = "??",
                         color = Color.LightGray,
@@ -175,8 +180,9 @@ fun DetailScreenTitle(navController: NavHostController, title: String)
 }
 
 @Composable
-fun ButtonArea(context: Context, navController: NavHostController, model: DetailModel)
+fun ButtonArea(navController: NavHostController, model: DetailModel)
 {
+    val context = LocalContext.current
     val deleteDialog = remember { mutableStateOf(false) }
     Row {
         IconButton(

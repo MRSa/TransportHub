@@ -18,4 +18,7 @@
 
     <string name="data_imported">登録: </string>
     <string name="data_not_import">既に登録済: </string>
+
+    <string name="check_icon_description">Check</string>
+    <string name="received_date_format">受信:%s</string>
 </resources>

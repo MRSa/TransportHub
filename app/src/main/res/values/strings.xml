@@ -22,4 +22,6 @@
     <string name="data_imported">Imported: </string>
     <string name="data_not_import">Already received: </string>
 
+    <string name="check_icon_description">Check</string>
+    <string name="received_date_format">Received:%s</string>
 </resources>

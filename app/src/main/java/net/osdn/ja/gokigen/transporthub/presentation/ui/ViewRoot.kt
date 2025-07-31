@@ -7,7 +7,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.AbstractComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,8 +20,6 @@ import net.osdn.ja.gokigen.transporthub.presentation.theme.GokigenComposeAppsThe
 
 class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : AbstractComposeView(context, attrs, defStyleAttr)
 {
-    //private val dataListModel = DataListModel()
-
     @Composable
     override fun Content()
     {
@@ -46,9 +43,7 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 @Composable
 fun NavigationMain(navController: NavHostController, dataListModel: DataListModel)
 {
-    val context = LocalContext.current
     SwipeDismissableNavHost(
-        //NavHost(
         navController = navController,
         startDestination = "MainScreen",
     ) {
@@ -64,7 +59,7 @@ fun NavigationMain(navController: NavHostController, dataListModel: DataListMode
             )
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: 0
-            DataDetail(context = context, navController = navController, id = id)
+            DataDetail(navController = navController, id = id)
         }
     }
 }
