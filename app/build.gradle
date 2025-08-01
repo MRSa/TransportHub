@@ -14,8 +14,8 @@ android {
         applicationId "net.osdn.ja.gokigen.transporthub"
         minSdk 26
         targetSdk 36
-        versionCode 1034
-        versionName "1.04w"
+        versionCode 1036
+        versionName "1.05w"
         vectorDrawables {
             useSupportLibrary true
         }

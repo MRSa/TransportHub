@@ -4,9 +4,11 @@ package net.osdn.ja.gokigen.transporthub.mobile.ui
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,7 +51,11 @@ class ViewRoot @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 fun NavigationMain(navController: NavHostController, dataListModel: DataListModel)
 {
     val context = LocalContext.current
-    NavHost(navController = navController, startDestination = "MainScreen") {
+    NavHost(
+        modifier = Modifier.systemBarsPadding(),
+        navController = navController,
+        startDestination = "MainScreen"
+    ) {
         composable("MainScreen") {
             MobileApp(navController = navController, dataListModel = dataListModel)
         }

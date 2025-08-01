@@ -12,19 +12,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,7 +57,7 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
     TransportHubTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
+            color = MaterialTheme.colorScheme.background
         ) {
             Column(
                 modifier = Modifier
@@ -116,14 +118,18 @@ fun DataDetail(context: Context, navController: NavHostController, id : Int)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreenTitle(navController: NavHostController, title: String)
 {
     TopAppBar(
         title = { Text(text = title) },
         modifier = Modifier.clickable(onClick = { navController.popBackStack() }),
-        backgroundColor = Color(0xff3DDC84),
-        contentColor = if (isSystemInDarkTheme()) { Color.Black } else { Color.White },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+        ),
     )
 }
 
