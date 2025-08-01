@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -35,6 +36,8 @@ class MainActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         {
             ///////// SHOW SPLASH SCREEN : call before super.onCreate() /////////
             installSplashScreen()
+
+            enableEdgeToEdge()
         }
         catch (e: Exception)
         {
